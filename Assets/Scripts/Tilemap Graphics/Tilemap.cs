@@ -75,19 +75,21 @@ public class Tilemap : MonoBehaviour {
                 int tile_x = _map.GetTileAt(x,y).ID % _n_cols;
                 int tile_y = _map.GetTileAt(x,y).ID / _n_cols;
 
-                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_resolution                  , y * tile_resolution                  , 0);
-                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_resolution + tile_resolution, y * tile_resolution                  , 0);
-                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_resolution                  , y * tile_resolution + tile_resolution, 0);
-                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_resolution + tile_resolution, y * tile_resolution + tile_resolution, 0);
+                int h = (size_y - 1) * tile_resolution;
+
+                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_resolution                  , h - y * tile_resolution                  , 0);
+                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_resolution + tile_resolution, h - y * tile_resolution                  , 0);
+                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_resolution                  , h - y * tile_resolution + tile_resolution, 0);
+                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_resolution + tile_resolution, h - y * tile_resolution + tile_resolution, 0);
                 normals[4 * (x + y * size_x) + 0] = Vector3.up;
                 normals[4 * (x + y * size_x) + 1] = Vector3.up;
                 normals[4 * (x + y * size_x) + 2] = Vector3.up;
                 normals[4 * (x + y * size_x) + 3] = Vector3.up;
-                uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols    , (float)(tile_y) / _n_rows);
-                uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, (float)(tile_y) / _n_rows);
-                uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols    , (float)(tile_y + 1) / _n_rows);
-                uv[4 * (x + y * size_x) + 3] = new Vector2((float)(tile_x + 1) / _n_cols, (float)(tile_y + 1) / _n_rows);
-                Debug.Log(uv[4 * (x + y * size_x) + 0] + "," + uv[4 * (x + y * size_x) + 1] + "," + uv[4 * (x + y * size_x) + 2] + "," + uv[4 * (x + y * size_x) + 3]);
+                uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y) / _n_rows);
+                uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y) / _n_rows);
+                uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y + 1) / _n_rows);
+                uv[4 * (x + y * size_x) + 3] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y + 1) / _n_rows);
+                //Debug.Log(uv[4 * (x + y * size_x) + 0] + "," + uv[4 * (x + y * size_x) + 1] + "," + uv[4 * (x + y * size_x) + 2] + "," + uv[4 * (x + y * size_x) + 3]);
 
                 //triangle shit
                 int square_index = x + y * size_x;
