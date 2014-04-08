@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 //[RequireComponent(typeof(MeshCollider))]
 public class Tilemap : MonoBehaviour {
-
+    
     //public stuff for the Inspector
     public enum Input { MANUAL, FILE };
 
@@ -25,7 +29,7 @@ public class Tilemap : MonoBehaviour {
 
     public string tile_ids; //list of tile ides
 
-    public string tiled_filename;
+    public string tiled_filepath;
 
     //private stuff for actual work
     private Tilemap_D _map;
@@ -35,20 +39,39 @@ public class Tilemap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        string[] tmp = tile_ids.Split(',');
-        _converted_tile_ids = new int[tmp.Length];
-        for (int i = 0; i < tmp.Length; i++)
-        {
-            _converted_tile_ids[i] = Convert.ToInt32(tmp[i]);
-        }
-        _map = new Tilemap_D(size_x, size_y, _converted_tile_ids);
-        _n_rows = tileset.height / tile_resolution;
-        _n_cols = tileset.width / tile_resolution;
-        //BuildMesh();
+
 	}
 
     public void Generate()
     {
+        if (input_method == Input.FILE)
+        {
+            Debug.Log(tiled_filepath);
+            using (StreamReader sr = File.OpenText(@tiled_filepath))
+            {
+                JObject o = (JObject)JToken.ReadFrom(new JsonTextReader(sr));
+                size_x = Convert.ToInt32(o["width"]);
+                size_y = Convert.ToInt32(o["height"]);
+                tile_resolution = Convert.ToInt32(o["tileheight"]);
+                try
+                {
+                    solid_threshold = Convert.ToInt32(o["tilesets"][0]["properties"]["solid_threshold"]);
+                } catch {
+                 solid_threshold = 1;    
+                }
+                //tileset = new Texture2D(size_x * tile_resolution, size_y * tile_resolution);
+                //string path = (string)o["tilesets"][0]["image"];
+                //using (StreamReader imgr = new StreamReader(File.Open(path, FileMode.Open)))
+                //{
+                //    tileset.LoadImage(imgr.r
+                //}
+                JArray data = (JArray)o["layers"][0]["data"];
+                tile_ids = data.ToString();
+                tile_ids = tile_ids.Replace("\n", "");
+                tile_ids = tile_ids.Substring(1, tile_ids.Length - 2); //remove brackets
+                Debug.Log(tile_ids);
+            }
+        }
         Tile_D.SOLID_THRESHOLD = solid_threshold;
         string[] tmp = tile_ids.Split(',');
         _converted_tile_ids = new int[tmp.Length];

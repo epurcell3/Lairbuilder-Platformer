@@ -50,6 +50,8 @@ public class TilemapEditor : Editor {
                 break;
             case Tilemap.Input.FILE:
                 EditorGUILayout.PropertyField(tiled_filepath_Prop);
+                EditorGUILayout.PropertyField(tile_size_Prop);
+                EditorGUILayout.PropertyField(tileset_Prop);
                 break;
         }
 
