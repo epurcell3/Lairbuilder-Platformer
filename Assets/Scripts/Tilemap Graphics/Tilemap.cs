@@ -8,6 +8,10 @@ using System;
 public class Tilemap : MonoBehaviour {
 
     //public stuff for the Inspector
+    public enum Input { MANUAL, FILE };
+
+    public Input input_method = Input.MANUAL;
+
     public int size_x = 40; //tiles wide
     public int size_y = 24; //tiles high
 
@@ -20,6 +24,8 @@ public class Tilemap : MonoBehaviour {
     public Texture2D tileset; //texture of the tiles
 
     public string tile_ids; //list of tile ides
+
+    public string tiled_filename;
 
     //private stuff for actual work
     private Tilemap_D _map;
@@ -53,6 +59,10 @@ public class Tilemap : MonoBehaviour {
         _map = new Tilemap_D(size_x, size_y, _converted_tile_ids);
         _n_rows = tileset.height / tile_resolution;
         _n_cols = tileset.width / tile_resolution;
+        Debug.Log(GetComponents<BoxCollider2D>().Length);
+        while(GetComponents<BoxCollider2D>().Length > 0)
+            DestroyImmediate(GetComponent<BoxCollider2D>());
+        Debug.Log(GetComponents<BoxCollider2D>().Length);
         BuildMesh();
     }
 
