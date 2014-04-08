@@ -4,7 +4,7 @@ using System;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(MeshCollider))]
+//[RequireComponent(typeof(MeshCollider))]
 public class Tilemap : MonoBehaviour {
 
     //public stuff for the Inspector
@@ -80,10 +80,10 @@ public class Tilemap : MonoBehaviour {
 
                 int h = (int)((size_y - 1) * tile_size);
 
-                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_size                  , h - y * tile_size                  , 0);
-                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_size + tile_size, h - y * tile_size, 0);
-                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_size, h - y * tile_size + tile_size, 0);
-                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_size + tile_size, h - y * tile_size + tile_size, 0);
+                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_size                  , h - y * tile_size                 , 0);
+                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_size + tile_size      , h - y * tile_size                 , 0);
+                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_size                  , h - y * tile_size + tile_size     , 0);
+                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_size + tile_size      , h - y * tile_size + tile_size     , 0);
                 normals[4 * (x + y * size_x) + 0] = Vector3.up;
                 normals[4 * (x + y * size_x) + 1] = Vector3.up;
                 normals[4 * (x + y * size_x) + 2] = Vector3.up;
@@ -108,8 +108,10 @@ public class Tilemap : MonoBehaviour {
                 //Add a box collider if the tile is solid
                 if (_map.GetTileAt(x, y).Solid)
                 {
-                    //BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
-                    //collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size)
+                    BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
+                    Debug.Log(collider);
+                    collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size) / 2);
+                    collider.size = new Vector2(tile_size, tile_size);
                 }
             }
         }
@@ -121,9 +123,9 @@ public class Tilemap : MonoBehaviour {
         mesh.uv = uv;
 
         MeshFilter mesh_filter = GetComponent<MeshFilter>();
-        MeshCollider mesh_collider = GetComponent<MeshCollider>();
+        //MeshCollider mesh_collider = GetComponent<MeshCollider>();
 
         mesh_filter.mesh = mesh;
-        mesh_collider.sharedMesh = mesh;
+        //mesh_collider.sharedMesh = mesh;
     }
 }
