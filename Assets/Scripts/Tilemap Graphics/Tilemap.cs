@@ -13,6 +13,8 @@ public class Tilemap : MonoBehaviour {
 
     public int tile_resolution = 16; //pixels across, assume square
 
+    public float tile_size = 1.0f;
+
     public int solid_threshold = 1; //where tiles become solid;
 
     public Texture2D tileset; //texture of the tiles
@@ -41,6 +43,7 @@ public class Tilemap : MonoBehaviour {
 
     public void Generate()
     {
+        Tile_D.SOLID_THRESHOLD = solid_threshold;
         string[] tmp = tile_ids.Split(',');
         _converted_tile_ids = new int[tmp.Length];
         for (int i = 0; i < tmp.Length; i++)
@@ -75,20 +78,20 @@ public class Tilemap : MonoBehaviour {
                 int tile_x = _map.GetTileAt(x,y).ID % _n_cols;
                 int tile_y = _map.GetTileAt(x,y).ID / _n_cols;
 
-                int h = (size_y - 1) * tile_resolution;
+                int h = (int)((size_y - 1) * tile_size);
 
-                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_resolution                  , h - y * tile_resolution                  , 0);
-                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_resolution + tile_resolution, h - y * tile_resolution                  , 0);
-                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_resolution                  , h - y * tile_resolution + tile_resolution, 0);
-                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_resolution + tile_resolution, h - y * tile_resolution + tile_resolution, 0);
+                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_size                  , h - y * tile_size                  , 0);
+                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_size + tile_size, h - y * tile_size, 0);
+                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_size, h - y * tile_size + tile_size, 0);
+                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_size + tile_size, h - y * tile_size + tile_size, 0);
                 normals[4 * (x + y * size_x) + 0] = Vector3.up;
                 normals[4 * (x + y * size_x) + 1] = Vector3.up;
                 normals[4 * (x + y * size_x) + 2] = Vector3.up;
                 normals[4 * (x + y * size_x) + 3] = Vector3.up;
-                uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y) / _n_rows);
-                uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y) / _n_rows);
-                uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y + 1) / _n_rows);
-                uv[4 * (x + y * size_x) + 3] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y + 1) / _n_rows);
+                uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y+1) / _n_rows);
+                uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y+1) / _n_rows);
+                uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y) / _n_rows);
+                uv[4 * (x + y * size_x) + 3] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y) / _n_rows);
                 //Debug.Log(uv[4 * (x + y * size_x) + 0] + "," + uv[4 * (x + y * size_x) + 1] + "," + uv[4 * (x + y * size_x) + 2] + "," + uv[4 * (x + y * size_x) + 3]);
 
                 //triangle shit
@@ -101,6 +104,13 @@ public class Tilemap : MonoBehaviour {
                 triangles[triangle_offset + 3] = 4 * (x + y * size_x) + 0;
                 triangles[triangle_offset + 4] = 4 * (x + y * size_x) + 3;
                 triangles[triangle_offset + 5] = 4 * (x + y * size_x) + 1;
+
+                //Add a box collider if the tile is solid
+                if (_map.GetTileAt(x, y).Solid)
+                {
+                    //BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
+                    //collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size)
+                }
             }
         }
 
