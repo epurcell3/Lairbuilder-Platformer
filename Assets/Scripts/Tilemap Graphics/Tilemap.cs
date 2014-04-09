@@ -37,6 +37,63 @@ public class Tilemap : MonoBehaviour {
 
     private int _n_rows, _n_cols;
 
+
+    //Event handler for setting a new tile
+    private void MapChanged(object sender, ChangedEventArgs e)
+    {
+        int x = e.X;
+        int y = e.Y;
+        int id = e.ID;
+
+        int tile_x = _map.GetTileAt(x, y).ID % _n_cols;
+        int tile_y = _map.GetTileAt(x, y).ID / _n_cols;
+        int h = (int)((size_y - 1) * tile_size);
+
+        MeshFilter mesh_filter = GetComponent<MeshFilter>();
+
+        Vector2[] uv = mesh_filter.sharedMesh.uv;
+
+        uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols, 1 - (float)(tile_y + 1) / _n_rows);
+        uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y + 1) / _n_rows);
+        uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols, 1 - (float)(tile_y) / _n_rows);
+        uv[4 * (x + y * size_x) + 3] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y) / _n_rows);
+
+        mesh_filter.sharedMesh.uv = uv;
+
+        var findTileCollider = from collider in GetComponents<BoxCollider2D>()
+                               where collider.center.x == (x * tile_size * 2 + tile_size) / 2 &&
+                                     collider.center.y == (2 * (h - y * tile_size) + tile_size) / 2
+                               select collider;
+        bool found = false;
+
+        foreach (BoxCollider2D collider in findTileCollider)
+        {
+        }
+
+        if (!_map.GetTileAt(x, y).Solid)
+        {
+            foreach (BoxCollider2D collider in findTileCollider)
+            {
+                DestroyImmediate(collider);
+            }
+        }
+        else
+        {
+            foreach (BoxCollider2D collider in findTileCollider)
+            {
+                found = true;
+            }
+            if (!found)
+            {
+                BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
+                collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size) / 2);
+                collider.size = new Vector2(tile_size, tile_size);
+            }
+        }
+
+    }
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -46,7 +103,6 @@ public class Tilemap : MonoBehaviour {
     {
         if (input_method == Input.FILE)
         {
-            Debug.Log(tiled_filepath);
             using (StreamReader sr = File.OpenText(@tiled_filepath))
             {
                 JObject o = (JObject)JToken.ReadFrom(new JsonTextReader(sr));
@@ -69,7 +125,6 @@ public class Tilemap : MonoBehaviour {
                 tile_ids = data.ToString();
                 tile_ids = tile_ids.Replace("\n", "");
                 tile_ids = tile_ids.Substring(1, tile_ids.Length - 2); //remove brackets
-                Debug.Log(tile_ids);
             }
         }
         Tile_D.SOLID_THRESHOLD = solid_threshold;
@@ -80,12 +135,11 @@ public class Tilemap : MonoBehaviour {
             _converted_tile_ids[i] = Convert.ToInt32(tmp[i]);
         }
         _map = new Tilemap_D(size_x, size_y, _converted_tile_ids);
+        _map.Changed += new EventHandler<ChangedEventArgs>(MapChanged); //set the event handler
         _n_rows = tileset.height / tile_resolution;
         _n_cols = tileset.width / tile_resolution;
-        Debug.Log(GetComponents<BoxCollider2D>().Length);
         while(GetComponents<BoxCollider2D>().Length > 0)
             DestroyImmediate(GetComponent<BoxCollider2D>());
-        Debug.Log(GetComponents<BoxCollider2D>().Length);
         BuildMesh();
     }
 
@@ -142,7 +196,6 @@ public class Tilemap : MonoBehaviour {
                 if (_map.GetTileAt(x, y).Solid)
                 {
                     BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
-                    Debug.Log(collider);
                     collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size) / 2);
                     collider.size = new Vector2(tile_size, tile_size);
                 }
@@ -156,9 +209,11 @@ public class Tilemap : MonoBehaviour {
         mesh.uv = uv;
 
         MeshFilter mesh_filter = GetComponent<MeshFilter>();
-        //MeshCollider mesh_collider = GetComponent<MeshCollider>();
-
         mesh_filter.mesh = mesh;
-        //mesh_collider.sharedMesh = mesh;
+    }
+
+    public void PlaceBlock(int x, int y, int id)
+    {
+        _map.SetTileAt(x, y, id);
     }
 }

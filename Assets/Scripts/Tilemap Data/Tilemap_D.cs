@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+
+
+public delegate void EventHandler<ChangedEventArgs>(object sender, ChangedEventArgs e);
 
 public class Tilemap_D {
 
@@ -7,6 +11,15 @@ public class Tilemap_D {
 	private int size_y;
 
 	private Tile_D[,] map;
+
+    public event EventHandler<ChangedEventArgs> Changed;
+
+    protected virtual void OnChanged(int x, int y, int id)
+    {
+        EventHandler<ChangedEventArgs> handler = Changed;
+        if (handler != null)
+            handler(this, new ChangedEventArgs(x, y, id));
+    }
 
 	public Tilemap_D(int size_x, int size_y)
 	{
@@ -39,5 +52,33 @@ public class Tilemap_D {
     public void SetTileAt(int x, int y, int id)
     {
         map[x, y].ID = id;
+        OnChanged(x, y, id);
+    }
+}
+
+public class ChangedEventArgs : EventArgs
+{
+    private int _x, _y, _id;
+
+    public ChangedEventArgs(int x, int y, int id)
+    {
+        _x = x;
+        _y = y;
+        _id = id;
+    }
+
+    public int X
+    {
+        get { return _x; }
+    }
+
+    public int Y
+    {
+        get { return _y; }
+    }
+
+    public int ID
+    {
+        get { return _id; }
     }
 }
