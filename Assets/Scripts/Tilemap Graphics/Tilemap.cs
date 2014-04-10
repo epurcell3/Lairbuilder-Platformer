@@ -99,7 +99,8 @@ public class Tilemap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//this.Generate (); //There's not enough set variables at the start, no point in running Generate to do wasted effort.
+        //_map = new Tilemap_D(size_x, size_y);
+        this.Generate (); //There's not enough set variables at the start, no point in running Generate to do wasted effort.
 	}
 
     public void Generate()
