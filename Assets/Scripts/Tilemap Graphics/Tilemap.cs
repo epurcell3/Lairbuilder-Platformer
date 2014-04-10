@@ -12,9 +12,9 @@ using Newtonsoft.Json.Linq;
 public class Tilemap : MonoBehaviour {
     
     //public stuff for the Inspector
-    public enum Input { MANUAL, FILE };
+    public enum Inpu { MANUAL, FILE };
 
-    public Input input_method = Input.MANUAL;
+    public Inpu input_method = Inpu.FILE;
 
     public int size_x = 40; //tiles wide
     public int size_y = 24; //tiles high
@@ -35,7 +35,10 @@ public class Tilemap : MonoBehaviour {
     private Tilemap_D _map;
     private int[] _converted_tile_ids;
 
-    private int _n_rows, _n_cols;
+	private int _n_rows, _n_cols;
+
+	// Storing where the map is in screenspace is a big deal... Just have to figure out
+	private Vector2 location;
 
 
     //Event handler for setting a new tile
@@ -96,12 +99,12 @@ public class Tilemap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		this.Generate ();
 	}
 
     public void Generate()
     {
-        if (input_method == Input.FILE)
+        if (input_method == Inpu.FILE)
         {
             using (StreamReader sr = File.OpenText(@tiled_filepath))
             {
@@ -216,4 +219,34 @@ public class Tilemap : MonoBehaviour {
     {
         _map.SetTileAt(x, y, id);
     }
+
+	void Update(){
+		Vector2 mouseTile = mouseToTile();
+
+		//Check for collision first
+		Ray checker = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit2D r = Physics2D.GetRayIntersection(checker);
+		bool collided = false;
+		if (r != null){
+			if(r.collider is BoxCollider2D){
+				collided = true;
+			}
+		}
+		
+		if (Input.GetMouseButton (0)) {
+			//Draw a block. This is hardcoded for now.
+			if(!collided)
+				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 35);
+		} else if (Input.GetMouseButton (1)) {
+			//Erase a block.
+			if(collided)
+				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
+		}
+	}
+
+	//Turns mouse position into a tile.
+	private Vector2 mouseToTile(){
+		Vector3 mouse = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		return new Vector2((float)(int)mouse.x, (float)(int)(size_y-(mouse.y)));
+	}
 }
