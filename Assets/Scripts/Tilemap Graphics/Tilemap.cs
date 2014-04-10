@@ -12,9 +12,9 @@ using Newtonsoft.Json.Linq;
 public class Tilemap : MonoBehaviour {
     
     //public stuff for the Inspector
-    public enum Inpu { MANUAL, FILE };
+    public enum InputMethod { MANUAL, FILE };
 
-    public Inpu input_method = Inpu.FILE;
+    public InputMethod input_method = InputMethod.FILE;
 
     public int size_x = 40; //tiles wide
     public int size_y = 24; //tiles high
@@ -99,12 +99,12 @@ public class Tilemap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		this.Generate ();
+		//this.Generate (); //There's not enough set variables at the start, no point in running Generate to do wasted effort.
 	}
 
     public void Generate()
     {
-        if (input_method == Inpu.FILE)
+        if (input_method == InputMethod.FILE)
         {
             using (StreamReader sr = File.OpenText(@tiled_filepath))
             {
