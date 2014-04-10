@@ -243,10 +243,15 @@ public class Tilemap : MonoBehaviour {
 				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
 		}
 	}
+    
+    private Vector2 v3ToTile(Vector3 v){
+		Vector3 vec = Camera.main.ScreenToWorldPoint (v);
+		return new Vector2((float)(int)vec.x, (float)(int)(size_y-(vec.y)));
+    }
+    
 
 	//Turns mouse position into a tile.
 	private Vector2 mouseToTile(){
-		Vector3 mouse = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		return new Vector2((float)(int)mouse.x, (float)(int)(size_y-(mouse.y)));
+        return v3ToTile(Input.mousePosition);
 	}
 }
