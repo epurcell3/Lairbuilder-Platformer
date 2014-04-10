@@ -35,11 +35,11 @@ public class TilemapEditor : Editor {
 
         EditorGUILayout.PropertyField(input_method_Prop);
 
-        Tilemap.Inpu inp = (Tilemap.Inpu)input_method_Prop.enumValueIndex;
+        Tilemap.InputMethod inp = (Tilemap.InputMethod)input_method_Prop.enumValueIndex;
 
         switch (inp)
         {
-            case Tilemap.Inpu.MANUAL:
+            case Tilemap.InputMethod.MANUAL:
                 EditorGUILayout.PropertyField(size_x_Prop);
                 EditorGUILayout.PropertyField(size_y_Prop);
                 EditorGUILayout.PropertyField(tile_resolution_Prop);
@@ -48,7 +48,7 @@ public class TilemapEditor : Editor {
                 EditorGUILayout.PropertyField(tileset_Prop);
                 EditorGUILayout.PropertyField(tile_ids_Prop);
                 break;
-            case Tilemap.Inpu.FILE:
+            case Tilemap.InputMethod.FILE:
                 EditorGUILayout.PropertyField(tiled_filepath_Prop);
                 EditorGUILayout.PropertyField(tile_size_Prop);
                 EditorGUILayout.PropertyField(tileset_Prop);
