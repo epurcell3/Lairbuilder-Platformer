@@ -21,31 +21,29 @@ public class RANSAC {
             int i = random.Next(points.Count);
             List<Vector2> samples = new List<Vector2>();
             samples.Add(points[i]);
-            for (int c = 0; c < S; c++)
-            {
-                Vector2 sample;
-                int range = (int)(D / sep_degree);
-                try
-                {
-                    if (random.Next(2) == 0)
-                        sample = points[i + random.Next(range + 1)];
-                    else
-                        sample = points[i - random.Next(range + 1)];
-                }
-                catch (IndexOutOfRangeException e)
-                {
-                    c--;
-                    continue;
-                }
-                if (!(samples.Contains(sample)))
-                {
-                    samples.Add(sample);
-                }
-                else
-                {
-                    c--;
-                }
-            }
+            Vector2 sample;
+            int range = (int)(D / sep_degree);
+            int lowerBound = (i - range) < 0 ? 0 : i - range;
+            int upperBound = (i + range) > points.Count - 1 ? points.Count - 1 : i + range;
+            List<Vector2> neighbors = samples.GetRange(lowerBound, upperBound - lowerBound);
+            //int c = 0;
+            //while (c < S && samples.Count != points.Count)
+            //{
+            //    Vector2 sample;
+            //    int range = (int)(D / sep_degree);
+            //    int lowerBound = (i - range) < 0 ? 0 : i - range;
+            //    int upperBound = (i + range) > points.Count - 1 ? points.Count - 1 : i + range;
+            //    int ind = i + random.Next(lowerBound, upperBound);
+            //    sample = points[ind];
+            //    if (!(samples.Contains(sample)))
+            //    {
+            //        samples.Add(sample);
+            //    }
+            //    else
+            //    {
+            //        c--;
+            //    }
+            //}
             float m, b;
             LLS(samples, out m, out b);
             foreach (Vector2 point in points)
