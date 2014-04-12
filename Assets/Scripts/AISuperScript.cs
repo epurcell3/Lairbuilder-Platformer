@@ -94,15 +94,15 @@ public class AISuperScript : MonoBehaviour {
 		}
 
 		for( int hitNum = 0; hitNum < hits.Count; hitNum++){
-			RaycastHit hit = hits.indexOf(hitNum);
+			RaycastHit hit = hits[hitNum];
 			if(hit.transform){
 				string hitTag = hit.transform.tag; 
 				Vector2 tile = currentMap.GetTileForPos(hit.point);
 				Vector2[] tilesBetween = currentMap.getTilesBetweenPoints(this.gameObject.transform.position, hit.point);
 				foreach(Vector2 cTile in tilesBetween){
-					map[cTile.x, cTile.y] = 1;
+					map[(int)cTile.x, (int)cTile.y] = 1;
 				}
-				map[tile.x, tile.y] = tagMap(tag);
+				map[(int)tile.x, (int)tile.y] = tagMap(tag);
 			}
 
 		}

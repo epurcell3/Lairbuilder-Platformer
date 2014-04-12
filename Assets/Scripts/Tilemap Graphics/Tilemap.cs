@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Linq;
@@ -147,6 +148,78 @@ public class Tilemap : MonoBehaviour {
         BuildMesh();
     }
 
+    public void PlaceBlock(int x, int y, int id)
+    {
+        _map.SetTileAt(x, y, id);
+    }
+
+    // Breaks the vector down to indices and calls the other function
+    // returns the center position of the tile
+    public Vector2 getPosOfTile(Vector2 tile)
+    {
+        int x = (int)tile.x;
+        int y = (int)tile.y;
+
+        return getPosOfTile(x, y);
+    }
+
+    // Takes in x and y indices for where the tile is on the map and returns the 
+    // center location of the tile.
+    public Vector2 getPosOfTile(int x, int y)
+    {
+        return new Vector2(x * tile_size + tile_size / 2, (size_y - y) * tile_size - tile_size / 2);
+    }
+
+    // Returns a vector of the x, y coords of the tile containing some position pos.
+    public Vector2 GetTileForPos(Vector2 pos)
+    {
+        int x = (int)Math.Floor(pos.x / tile_size);
+        int y = size_y - (int)Math.Floor(pos.y / tile_size) - 1;
+
+        return new Vector2(x, y);
+    }
+
+    public Vector2[] getTilesBetweenPoints(Vector2 start, Vector2 end)
+    {
+        List<Vector2> tiles = new List<Vector2>();
+
+        Vector2 u = new Vector2(end.x - start.x, end.y - start.y);
+        u = new Vector2(u.x / u.magnitude, u.y / u.magnitude);
+        //traverse the ray...
+        for (float x = start.x, y = start.y; x < end.x && y < end.y; x += u.x / 2, y += u.y / 2)
+        {
+            Vector2 tile = GetTileForPos(new Vector2(x, y));
+            if (!tiles.Contains(tile))
+                tiles.Add(tile);
+        }
+        return tiles.ToArray();
+    }
+
+	void Update(){
+		Vector2 mouseTile = mouseToTile();
+
+		//Check for collision first
+		Ray checker = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit2D r = Physics2D.GetRayIntersection(checker);
+		bool collided = false;
+		if (r != null){
+			if(r.collider is BoxCollider2D){
+				collided = true;
+			}
+		}
+		
+		if (Input.GetMouseButton (0)) {
+			//Draw a block. This is hardcoded for now.
+			if(!collided)
+				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 35);
+		} else if (Input.GetMouseButton (1)) {
+			//Erase a block.
+			if(collided)
+				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
+		}
+	}
+
+
     void BuildMesh()
     {
         int num_tiles = size_x * size_y;
@@ -166,22 +239,22 @@ public class Tilemap : MonoBehaviour {
         {
             for (int x = 0; x < size_x; x++)
             {
-                int tile_x = _map.GetTileAt(x,y).ID % _n_cols;
-                int tile_y = _map.GetTileAt(x,y).ID / _n_cols;
+                int tile_x = _map.GetTileAt(x, y).ID % _n_cols;
+                int tile_y = _map.GetTileAt(x, y).ID / _n_cols;
 
                 int h = (int)((size_y - 1) * tile_size);
 
-                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_size                  , h - y * tile_size                 , 0);
-                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_size + tile_size      , h - y * tile_size                 , 0);
-                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_size                  , h - y * tile_size + tile_size     , 0);
-                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_size + tile_size      , h - y * tile_size + tile_size     , 0);
+                vertices[4 * (x + y * size_x) + 0] = new Vector3(x * tile_size, h - y * tile_size, 0);
+                vertices[4 * (x + y * size_x) + 1] = new Vector3(x * tile_size + tile_size, h - y * tile_size, 0);
+                vertices[4 * (x + y * size_x) + 2] = new Vector3(x * tile_size, h - y * tile_size + tile_size, 0);
+                vertices[4 * (x + y * size_x) + 3] = new Vector3(x * tile_size + tile_size, h - y * tile_size + tile_size, 0);
                 normals[4 * (x + y * size_x) + 0] = Vector3.up;
                 normals[4 * (x + y * size_x) + 1] = Vector3.up;
                 normals[4 * (x + y * size_x) + 2] = Vector3.up;
                 normals[4 * (x + y * size_x) + 3] = Vector3.up;
-                uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y+1) / _n_rows);
-                uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y+1) / _n_rows);
-                uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols    , 1 - (float)(tile_y) / _n_rows);
+                uv[4 * (x + y * size_x) + 0] = new Vector2((float)(tile_x) / _n_cols, 1 - (float)(tile_y + 1) / _n_rows);
+                uv[4 * (x + y * size_x) + 1] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y + 1) / _n_rows);
+                uv[4 * (x + y * size_x) + 2] = new Vector2((float)(tile_x) / _n_cols, 1 - (float)(tile_y) / _n_rows);
                 uv[4 * (x + y * size_x) + 3] = new Vector2((float)(tile_x + 1) / _n_cols, 1 - (float)(tile_y) / _n_rows);
                 //Debug.Log(uv[4 * (x + y * size_x) + 0] + "," + uv[4 * (x + y * size_x) + 1] + "," + uv[4 * (x + y * size_x) + 2] + "," + uv[4 * (x + y * size_x) + 3]);
 
@@ -215,35 +288,6 @@ public class Tilemap : MonoBehaviour {
         MeshFilter mesh_filter = GetComponent<MeshFilter>();
         mesh_filter.mesh = mesh;
     }
-
-    public void PlaceBlock(int x, int y, int id)
-    {
-        _map.SetTileAt(x, y, id);
-    }
-
-	void Update(){
-		Vector2 mouseTile = mouseToTile();
-
-		//Check for collision first
-		Ray checker = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit2D r = Physics2D.GetRayIntersection(checker);
-		bool collided = false;
-		if (r != null){
-			if(r.collider is BoxCollider2D){
-				collided = true;
-			}
-		}
-		
-		if (Input.GetMouseButton (0)) {
-			//Draw a block. This is hardcoded for now.
-			if(!collided)
-				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 35);
-		} else if (Input.GetMouseButton (1)) {
-			//Erase a block.
-			if(collided)
-				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
-		}
-	}
     
     private Vector2 v3ToTile(Vector3 v){
 		Vector3 vec = Camera.main.ScreenToWorldPoint (v);
@@ -252,7 +296,8 @@ public class Tilemap : MonoBehaviour {
     
 
 	//Turns mouse position into a tile.
-	private Vector2 mouseToTile(){
+    private Vector2 mouseToTile()
+    {
         return v3ToTile(Input.mousePosition);
-	}
+    }
 }
