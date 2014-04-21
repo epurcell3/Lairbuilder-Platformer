@@ -17,7 +17,7 @@ public class MoveScript : MonoBehaviour {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
 		if(jumpCount > 0){
-			if(jumpCount < 2 || !grounded)
+			if(jumpCount < 2 || !grounded())
 			{
 
 				if(jumpTime < (totalJumpTime * jumpCount)){
