@@ -246,10 +246,10 @@ GUITexture:
   m_Color: {r: .5, g: .5, b: .5, a: .5}
   m_PixelInset:
     serializedVersion: 2
-    x: -600
-    y: 50
-    width: 128
-    height: 58
+    x: -512
+    y: 40
+    width: 64
+    height: 32
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
@@ -332,10 +332,10 @@ GUITexture:
   m_Color: {r: .5, g: .5, b: .5, a: .5}
   m_PixelInset:
     serializedVersion: 2
-    x: -600
-    y: -15
-    width: 128
-    height: 58
+    x: -512
+    y: 0
+    width: 64
+    height: 32
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
@@ -3150,6 +3150,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 10, y: 10}
+  jumpCount: 0
+  totalJumpTime: 20
+  jumpTime: 0
+  horizontal: 0
+  vertical: 0
 --- !u!50 &915371226
 Rigidbody2D:
   m_ObjectHideFlags: 0
