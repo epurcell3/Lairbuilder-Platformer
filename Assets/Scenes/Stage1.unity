@@ -228,7 +228,7 @@ GameObject:
   - 131: {fileID: 222043768}
   - 114: {fileID: 222043770}
   - 114: {fileID: 222043771}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GUI-Button Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - 131: {fileID: 267239701}
   - 114: {fileID: 267239700}
   - 114: {fileID: 267239703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GUI-Button Blank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3026,7 +3026,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 543749438}
   - 114: {fileID: 543749439}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
