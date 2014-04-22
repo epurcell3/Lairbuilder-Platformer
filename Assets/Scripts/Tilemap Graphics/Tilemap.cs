@@ -40,6 +40,7 @@ public class Tilemap : MonoBehaviour {
 
 	// Storing where the map is in screenspace is a big deal... Just have to figure out
 	private Vector2 location;
+	private int b_type = -1;
 
 
     //Event handler for setting a new tile
@@ -196,7 +197,7 @@ public class Tilemap : MonoBehaviour {
     }
 
 	void Update(){
-		Vector2 mouseTile = mouseToTile();
+		Vector3 mouseTile = mouseToTile();
 
 		//Check for collision first
 		Ray checker = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -208,13 +209,12 @@ public class Tilemap : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetMouseButton (0)) {
+		if (Input.GetMouseButton (0) && mouseTile.z == 0.0) {
 			//Draw a block. This is hardcoded for now.
-			if(!collided)
-				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 35);
-		} else if (Input.GetMouseButton (1)) {
+			if(!collided && b_type != 0 && b_type != -1)
+				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), b_type);
+			else if(collided && b_type == 0)
 			//Erase a block.
-			if(collided)
 				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
 		}
 	}
@@ -296,8 +296,25 @@ public class Tilemap : MonoBehaviour {
     
 
 	//Turns mouse position into a tile.
-    private Vector2 mouseToTile()
+	//Z-value is if it is within the tilemap (0 if so, -1 if not).
+    private Vector3 mouseToTile()
     {
-        return v3ToTile(Input.mousePosition);
+		Vector2 v = v3ToTile (Input.mousePosition);
+		float valid = 0.0f;
+		if(!(v.x < this.size_x && v.x >= 0.0 && v.y < this.size_y && v.y >= 0.0))
+			valid = -1.0f;
+		//Debug.Log (v.x + " " + v.y + " " + valid);
+        return new Vector3(v.x, v.y, valid);
     }
+
+	public void updateType(int a){
+		if (this.b_type == a)
+			this.b_type = -1;
+		else
+			this.b_type = a;
+	}
+
+	public int tileType(){
+		return this.b_type;
+	}
 }
