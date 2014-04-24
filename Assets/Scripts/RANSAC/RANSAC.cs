@@ -107,12 +107,12 @@ public class RANSAC {
             }
             if (samples.Count > C)
             {
-                Debug.Log("Made it");
+                //Debug.Log("Made it");
                 LLS(samples, out m, out b);
 				if (m != float.PositiveInfinity)
-                	lines.Add(new Line(new Vector2(0, b), new Vector2(1, m)));
+					lines.Add(new Line(new Vector2(0 + samples[0].Point.x, b), new Vector2(1, m)));
 				else
-					lines.Add(new Line(new Vector2(b,0), new Vector2(0, 1)));
+					lines.Add(new Line(new Vector2(b, 0 + samples[0].Point.y), new Vector2(0, 1)));
                 //Debug.DrawLine(lines[lines.Count - 1].Point, lines[lines.Count - 1].Point + 100 * lines[lines.Count - 1].D, Color.red);
                 //if (n_attempts < 1)
                 //    Debug.Log(points.Count);
@@ -123,7 +123,7 @@ public class RANSAC {
             }
 
         }
-        Debug.Log(lines.Count);
+        //Debug.Log(lines.Count);
         return lines;
     }
 
@@ -147,19 +147,24 @@ public class RANSAC {
         }
 
         J = ((float)points.Count * x2) - (x * x);
-        if (J != 0.0 && !same_xs)
-        {
-            m = (((float)points.Count * xy) - (x * y)) / J;
-            m = Convert.ToSingle(Math.Floor(1.0E3 * m + 0.5) / 1.0E3);
-            b = ((y * x2) - (x * xy)) / J;
-            b = Convert.ToSingle(Math.Floor(1.0E3 * b + 0.5) / 1.0E3);
-        }
-        else
-        {
+        if (J != 0.0 && !same_xs) {
+			m = (((float)points.Count * xy) - (x * y)) / J;
+			m = Convert.ToSingle (Math.Floor (1.0E3 * m + 0.5) / 1.0E3);
+			b = ((y * x2) - (x * xy)) / J;
+			b = Convert.ToSingle (Math.Floor (1.0E3 * b + 0.5) / 1.0E3);
+			if (m != 0f)
+			{
+				m = float.NaN;
+				b = 0f;
+			}
+		} else if (same_xs) {
 			//case for vertical lines, b will store what x we're at
-            m = float.PositiveInfinity;
-            b = points[0].Point.x;
-        }
+			m = float.PositiveInfinity;
+			b = points [0].Point.x;
+		} else {
+			m = float.NaN;
+			b = 0.0f;
+		}
     }
 
     static double distance(float m, float b, Vector2 point)
