@@ -17,7 +17,7 @@ public class Highlighter : MonoBehaviour {
 
 	public void updateCurrent(OptionClickScript o){
 		if (o.Equals (current)) {
-			current = new OptionClickScript ();
+			current = null;//new OptionClickScript ();
 			o.setCur (false);
 		} else {
 			if(current)
