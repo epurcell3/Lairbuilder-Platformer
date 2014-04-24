@@ -23,9 +23,11 @@ public class RANSACTest : MonoBehaviour {
 
     private int t = 0;
 
+	private List<RANSAC.Line> landmarks = new List<RANSAC.Line>();
+	private List<int>		  seen_count = new List<int>();
+
 	// Use this for initialization
 	void Start () {
-	    
 	}
 	
 	// Update is called once per frame
@@ -65,12 +67,26 @@ public class RANSACTest : MonoBehaviour {
         //Debug.Log(lines.Count);
         foreach (RANSAC.Line line in lines)
         {
-            if (showLines)
-            {
+			RANSAC.Line adjusted = new RANSAC.Line(line.Point + (Vector2)transform.position, line.D);
+			if (landmarks.Contains(adjusted))
+			{
+				seen_count[landmarks.IndexOf(adjusted)]++;
+			}
+			else
+			{
+				landmarks.Add(adjusted);
+				seen_count.Add(1);
+			}
+            //if (showLines)
+            //{
                 //Debug.DrawLine(line.Point + (Vector2)transform.position, (Vector2)transform.position + line.Point + 100 * line.D, Color.red);
-                Debug.DrawRay(line.Point + (Vector2)transform.position, line.D, Color.red);
-            }
+            //    Debug.DrawRay(line.Point + (Vector2)transform.position, line.D, Color.red);
+            //}
         }
+		foreach (RANSAC.Line landmark in landmarks)
+		{
+			Debug.DrawRay(landmark.Point, landmark.D, Color.red);
+		}
 
 	}
 }
