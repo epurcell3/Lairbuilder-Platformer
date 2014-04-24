@@ -16,8 +16,6 @@ public class OptionClickScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (isCurrent)
-			gameObject.guiTexture.color = colorPushed;
 	}
 
 	void OnMouseEnter()    
@@ -46,6 +44,9 @@ public class OptionClickScript : MonoBehaviour {
 		isCurrent = t;
 		if(!t)
 			gameObject.guiTexture.color = originalColor;
+		else
+			gameObject.guiTexture.color = colorPushed;
+
 	}
 
 }
