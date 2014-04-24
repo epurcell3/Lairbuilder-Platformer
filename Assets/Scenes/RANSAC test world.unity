@@ -170,7 +170,7 @@ MonoBehaviour:
   showRays: 1
   showLines: 1
   distance: 5
-  fov: 90
+  fov: 220
   angle: 0
   degree_separation: .5
   N: 100
@@ -190,6 +190,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 20, y: 20}
+  jumpCount: 0
+  totalJumpTime: 20
+  jumpTime: 0
+  horizontal: 0
+  vertical: 0
 --- !u!61 &1074358157
 BoxCollider2D:
   m_ObjectHideFlags: 0
