@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-public class RANSAC : MonoBehaviour{
+public class RANSAC {
     private static int N = 100;
     private static int S = 3;
     private static float D = 10;
