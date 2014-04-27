@@ -83,6 +83,16 @@ public class SLAM : MonoBehaviour{
         
     }
 
+	public Vector2 Position
+	{
+		get { return this.gameObject.transform.position; }
+	}
+
+	public int[][] OccupancyGrid
+	{
+		get { return null; }
+	}
+
     public class Landmark
     {
         public static int LIFE = 40;
@@ -163,7 +173,7 @@ public class SLAM : MonoBehaviour{
         }
     }
 
-    public int GetSlamID(int id)
+    private int GetSlamID(int id)
     {
         for (int i = 0; i < EKFLandmarks; i++)
         {
@@ -175,7 +185,7 @@ public class SLAM : MonoBehaviour{
         return -1;
     }
 
-    public int AddSlamID(int lmID, int slamID)
+    private int AddSlamID(int lmID, int slamID)
     {
         IDtoID[EKFLandmarks, 0] = lmID;
         IDtoID[EKFLandmarks, 1] = slamID;
@@ -183,7 +193,7 @@ public class SLAM : MonoBehaviour{
         return 0;
     }
 
-    public Landmark[] UpdateAndAddLineLandmarks(Landmark[] extractedLandmarks)
+    private Landmark[] UpdateAndAddLineLandmarks(Landmark[] extractedLandmarks)
     {
         Landmark[] tempLandmarks = new Landmark[extractedLandmarks.Length];
         for(int i = 0; i < extractedLandmarks.Length; i++)
@@ -193,7 +203,7 @@ public class SLAM : MonoBehaviour{
         return tempLandmarks;
     }
 
-    public Landmark UpdateLandmark(Landmark lm)
+    private Landmark UpdateLandmark(Landmark lm)
     {
         int id = GetAssociation(lm);
         if (id == -1)
@@ -204,7 +214,7 @@ public class SLAM : MonoBehaviour{
 
     //todo: add landmark removal
 
-    public Landmark GetLineLandmark(RANSAC.Line line, Vector2 AIPosition)
+    private Landmark GetLineLandmark(RANSAC.Line line, Vector2 AIPosition)
     {
         Vector2 d0 = new Vector2(line.D.y, line.D.x);
         Vector2 p0 = new Vector2(line.Point.y, line.Point.x);
@@ -233,7 +243,7 @@ public class SLAM : MonoBehaviour{
         return lm;
     }
 
-    public int GetAssociation(Landmark lm)
+    private int GetAssociation(Landmark lm)
     {
         for (int i = 0; i < landmarkDB.Count; i++)
         {
@@ -254,7 +264,7 @@ public class SLAM : MonoBehaviour{
         return (float)Math.Sqrt(Math.Pow(l2.Point.x - l1.Point.x, 2) + Math.Pow(l2.Point.y - l1.Point.y, 2));
     }
 
-    public int AddToDB(Landmark lm)
+    private int AddToDB(Landmark lm)
     {
         if (DBSize + 1 < MAX_LANDMARKS)
         {
