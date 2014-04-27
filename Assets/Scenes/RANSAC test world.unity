@@ -149,6 +149,7 @@ GameObject:
   - 61: {fileID: 1074358157}
   - 114: {fileID: 1074358156}
   - 114: {fileID: 1074358155}
+  - 114: {fileID: 1074358161}
   m_Layer: 8
   m_Name: hero
   m_TagString: Untagged
@@ -162,13 +163,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1074358154}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc85c50d7b227f3488869fb419a3ce27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showRays: 1
-  showLines: 1
+  showRays: 0
+  showLines: 0
   distance: 5
   fov: 220
   angle: 0
@@ -255,6 +256,33 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1074358161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1074358154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 897cb128c2903c84c94e070bc635e518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LIFE: 40
+  MAX_ERROR: .5
+  MIN_OBSERVATIONS: 15
+  MAX_RANGE: 1
+  MAX_LANDMARKS: 3000
+  MAX_TRIALS: 100
+  SAMPLES: 10
+  CONSENSUS: 30
+  TOLERANCE: .0500000007
+  DEGREES: 10
+  distance: 5
+  fov: 90
+  angle: 0
+  degree_separation: 1
+  showRays: 1
+  showLines: 1
 --- !u!1001 &1620946251
 Prefab:
   m_ObjectHideFlags: 0

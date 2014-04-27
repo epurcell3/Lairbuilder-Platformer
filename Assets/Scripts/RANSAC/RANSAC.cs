@@ -130,10 +130,10 @@ public class RANSAC : MonoBehaviour{
 
     static void LLS(List<Sample> points, out float m, out float b)
     {
-        float x, y, xy, x2, y2, J;
+        float x, y, xy, x2, J;
 		bool same_xs = true;
 
-        x = y = xy = x2 = y2 = 0.0f;
+        x = y = xy = x2 = 0.0f;
 
         for (int i = 0; i < points.Count; i++)
         {
