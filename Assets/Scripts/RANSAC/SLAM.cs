@@ -277,6 +277,8 @@ public class SLAM : MonoBehaviour{
             toAdd.Range = lm.Range;
             toAdd.D = lm.D;
 
+			landmarkDB.Add (toAdd);
+
             DBSize++;
             return DBSize - 1;
         }
