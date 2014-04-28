@@ -62,10 +62,13 @@ public class SLAM : MonoBehaviour{
             RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Convert.ToSingle(Math.Cos((angle + i) * Math.PI / 180)), Convert.ToSingle(Math.Sin((angle + i) * Math.PI / 180))), distance, 1);
             if (hit.point != new Vector2(0, 0))
             {
-                points.Add(new RANSAC.Sample(hit.point - (Vector2)transform.position, (angle + i)));
-                if (showRays)
+                if (hit.collider.name == "Wall")
                 {
-                    Debug.DrawLine(transform.position, hit.point, Color.cyan);
+                    points.Add(new RANSAC.Sample(hit.point - (Vector2)transform.position, (angle + i)));
+                    if (showRays)
+                    {
+                        Debug.DrawLine(transform.position, hit.point, Color.cyan);
+                    }
                 }
             }
             else
