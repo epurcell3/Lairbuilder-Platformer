@@ -352,7 +352,7 @@ public class SLAM : MonoBehaviour
     {
         for (int x = 0; x < extracted_landmarks.Length; x++)
         {
-            Landmark lm = extracted_landmarks[c];
+            Landmark lm = extracted_landmarks[x];
             int r = (int)(lm.Point.x * (1 / MAX_ERROR));
             int c = (int)(lm.Point.y * (1 / MAX_ERROR));
 
