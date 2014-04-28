@@ -61,4 +61,16 @@ public class AIScript : MonoBehaviour {
 		return false;
 
 	}
+	void pickGoalState(){
+		int[][] grid = slam.OccupancyGrid;
+		int maxValue;
+		Vector2 maxGridPos;
+		if(grid != null){
+			for (int i = 0; i < grid.GetLength(0);i++){
+				for(int j = 0; j < grid.GetLength(1); j++){
+					
+				}
+			}
+		}
+	}
 }
