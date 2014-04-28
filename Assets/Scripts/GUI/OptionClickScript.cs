@@ -32,7 +32,7 @@ public class OptionClickScript : MonoBehaviour {
 	
 	void OnMouseUpAsButton()
 	{
-		Tilemap t = (Tilemap)GameObject.Find("Timemap").GetComponent("Tilemap");
+		Tilemap t = (Tilemap)GameObject.Find("Wall").GetComponent("Tilemap");
 
 		t.updateType (((Block)gameObject.GetComponent("Block")).tileId);
 		//Debug.Log(t.tileType());

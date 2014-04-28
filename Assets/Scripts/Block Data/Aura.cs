@@ -8,15 +8,17 @@ public class Aura : MonoBehaviour {
 	private float timeenter;
 	private float timeexit;
 	private int mapHeight;
+	Vector3 basePoint;
 
 	// Use this for initialization
 	void Start () {
-		mapHeight = GameObject.Find ("Timemap").GetComponent<Tilemap>().size_y;
+		mapHeight = GameObject.Find ("Wall").GetComponent<Tilemap>().size_y;
 		pointc = 60;
 		length = 2.0f;
 		gameObject.layer = 2;
 		CircleCollider2D c = gameObject.AddComponent<CircleCollider2D> ();
-		c.center = new Vector2(0.5f, mapHeight - 0.5f - (2 * this.transform.position.y));
+		//c.center = new Vector2(0.5f, mapHeight - 0.5f - (2 * this.transform.position.y));
+		c.center = new Vector2 (0.0f, 0.0f);
 		c.radius = length;
 		c.isTrigger = true;
 	}
@@ -24,6 +26,14 @@ public class Aura : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void setBase(Vector3 v){
+		this.basePoint = v;
+	}
+
+	public Vector3 getBase(){
+		return this.basePoint;
 	}
 	
 	void OnTriggerEnter2D(Collider2D other){
@@ -37,6 +47,7 @@ public class Aura : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-
+		Debug.Log ("Yep, still in.");
 	}
+
 }

@@ -156,7 +156,7 @@ public class Tilemap : MonoBehaviour {
 	
 	private int aexists (int x, int y){
 		for(int i = 0; i < auras.Count; i++)
-			if(auras[i].transform.position.x == x && auras[i].transform.position.y == y)
+			if(auras[i].GetComponent<Aura>().getBase().x == x && auras[i].GetComponent<Aura>().getBase().y == y)
 				return i;
 		return -1;
 	}
@@ -171,6 +171,9 @@ public class Tilemap : MonoBehaviour {
 			int aid = auras.Count - 1;
 			auras[aid].AddComponent("Aura");
 			auras[aid].transform.Translate(x,y,10);
+			auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
+			Vector3 cen = auras[aid].transform.position;
+			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,cen.z);
 		}
 		if(id != 2 && (aexists(x,y) != -1)){
 			GameObject g = auras[i];
