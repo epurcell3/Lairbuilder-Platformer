@@ -98,6 +98,8 @@ public class RANSAC {
                 continue;
             float m, b;
             LLS(samples, out m, out b);
+			if (m == float.NaN)
+				continue;
             foreach (Sample point in points)
             {
                 if (samples.Contains(point))
@@ -152,10 +154,13 @@ public class RANSAC {
 			m = Convert.ToSingle (Math.Floor (1.0E3 * m + 0.5) / 1.0E3);
 			b = ((y * x2) - (x * xy)) / J;
 			b = Convert.ToSingle (Math.Floor (1.0E3 * b + 0.5) / 1.0E3);
-			if (m != 0f)
+			if (Math.Abs(m) < 0.01f)
+			{
+				m = 0.0f;
+			}
+			else
 			{
 				m = float.NaN;
-				b = 0f;
 			}
 		} else if (same_xs) {
 			//case for vertical lines, b will store what x we're at
