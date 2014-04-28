@@ -3045,6 +3045,7 @@ Transform:
   m_Children:
   - {fileID: 222043769}
   - {fileID: 267239702}
+  - {fileID: 1981693192}
   m_Father: {fileID: 1620400257}
 --- !u!114 &543749439
 MonoBehaviour:
@@ -3057,8 +3058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038b0a7d10c875e429fc2144dc6150c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttons: []
-  tList: []
 --- !u!1 &833057332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3135,7 +3134,7 @@ GameObject:
   - 114: {fileID: 915371225}
   - 114: {fileID: 915371230}
   m_Layer: 2
-  m_Name: New Sprite
+  m_Name: AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3397,3 +3396,76 @@ Transform:
   - {fileID: 1599441594}
   - {fileID: 367733286}
   m_Father: {fileID: 0}
+--- !u!1 &1981693191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1981693192}
+  - 131: {fileID: 1981693195}
+  - 114: {fileID: 1981693194}
+  - 114: {fileID: 1981693193}
+  m_Layer: 8
+  m_Name: GUI-Button Aura Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1981693192
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1981693191}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &1981693193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1981693191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbd3cf7b2ba4bf4f908ed18df44a3c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileId: 0
+--- !u!114 &1981693194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1981693191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecbbb07ba4d6284f9f403d53a2255be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &1981693195
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1981693191}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 3a675b3a553d6e348a88de78c52376c6, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 14
+    y: 340
+    width: 64
+    height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
