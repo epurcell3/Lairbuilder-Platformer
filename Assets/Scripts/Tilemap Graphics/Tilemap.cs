@@ -102,7 +102,8 @@ public class Tilemap : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //_map = new Tilemap_D(size_x, size_y);
-        this.Generate (); //There's not enough set variables at the start, no point in running Generate to do wasted effort.
+		this.Generate (); //There's not enough set variables at the start, no point in running Generate to do wasted effort.
+		Camera.main.enabled = true;
 	}
 
     public void Generate()
