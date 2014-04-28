@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System;
 
-public class SLAM : MonoBehaviour{
+public class SLAM : MonoBehaviour
+{
 
+    #region Instance Variables
     public int LIFE = 40;
     public float MAX_ERROR = 0.5f;
     public int MIN_OBSERVATIONS = 15; //min times a landmark must be seen to be counted as a landmark
@@ -31,14 +33,31 @@ public class SLAM : MonoBehaviour{
     int[,] IDtoID;
     int EKFLandmarks = 0;
 
+    //localization and occupancy grid variables
+    private Vector2 position;
+    private Cell[,] occupancyGrid;
+    #endregion
+
+    #region Unity Calls
     void Start()
     {
         Landmark.LIFE = LIFE;
         IDtoID = new int[MAX_LANDMARKS, 2];
+        int width = (int)(48*(1/MAX_ERROR)*2);
+        int height = (int)(24*(1/MAX_ERROR)*2);
+        occupancyGrid = new Cell[width, height];
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                occupancyGrid[i, j] = new Cell(Occupant.UNEXPLORED, 1.0f);
+            }
+        }
     }
 
     void Update()
     {
+        position = this.gameObject.transform.position;
         //Raycasting
         List<RANSAC.Sample> points = new List<RANSAC.Sample>();
         for (float i = -fov / 2; i < fov / 2; i += degree_separation)
@@ -46,10 +65,13 @@ public class SLAM : MonoBehaviour{
             RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Convert.ToSingle(Math.Cos((angle + i) * Math.PI / 180)), Convert.ToSingle(Math.Sin((angle + i) * Math.PI / 180))), distance, 1);
             if (hit.point != new Vector2(0, 0))
             {
-                points.Add(new RANSAC.Sample(hit.point - (Vector2)transform.position, (angle + i)));
-                if (showRays)
+                if (hit.collider.name == "Wall")
                 {
-                    Debug.DrawLine(transform.position, hit.point, Color.cyan);
+                    points.Add(new RANSAC.Sample(hit.point - (Vector2)transform.position, (angle + i)));
+                    if (showRays)
+                    {
+                        Debug.DrawLine(transform.position, hit.point, Color.cyan);
+                    }
                 }
             }
             else
@@ -68,7 +90,7 @@ public class SLAM : MonoBehaviour{
         Landmark[] extracted_landmarks = new Landmark[lines.Count];
         for (int i = 0; i < lines.Count; i++)
         {
-            extracted_landmarks[i] = GetLineLandmark(lines[i], this.gameObject.transform.position);
+            extracted_landmarks[i] = GetLineLandmark(lines[i], position);
         }
 
         extracted_landmarks = UpdateAndAddLineLandmarks(extracted_landmarks);
@@ -82,17 +104,21 @@ public class SLAM : MonoBehaviour{
         }
         
     }
+    #endregion
 
-	public Vector2 Position
+    #region Properties
+    public Vector2 Position
 	{
-		get { return this.gameObject.transform.position; }
+		get { return position; }
 	}
 
-	public int[][] OccupancyGrid
+	public Cell[,] OccupancyGrid
 	{
-		get { return null; }
+		get { return occupancyGrid; }
 	}
+    #endregion
 
+    #region Landmark
     public class Landmark
     {
         public static int LIFE = 40;
@@ -172,7 +198,9 @@ public class SLAM : MonoBehaviour{
             set { bearing_error = value; }
         }
     }
+    #endregion
 
+    #region SLAM stuff
     private int GetSlamID(int id)
     {
         for (int i = 0; i < EKFLandmarks; i++)
@@ -277,10 +305,83 @@ public class SLAM : MonoBehaviour{
             toAdd.Range = lm.Range;
             toAdd.D = lm.D;
 
+			landmarkDB.Add (toAdd);
+
             DBSize++;
             return DBSize - 1;
         }
         return -1;
     }
+    #endregion
 
+    public bool exploredEnoughToSlam(){
+		return false;
+	}
+
+    #region Occupancy Grid stuff
+    public enum Occupant
+    {
+        UNEXPLORED = -1, OPEN = 0, OUTTER_WALL = 1, WALL = 2, DOOR = 3, DANGER = 4, AURA = 5 
+    }
+
+    public class Cell
+    {
+        Occupant occupant;
+        float probability;
+
+        public Cell(Occupant occupant, float probability)
+        {
+            this.occupant = occupant;
+            this.probability = probability;
+        }
+
+        public Occupant Occupant
+        {
+            get { return occupant; }
+            set { occupant = value; }
+        }
+
+        public float Probability
+        {
+            get { return probability; }
+            set { probability = value; }
+        }
+    }
+
+    private void updateOccupancyGrid(Landmark[] extracted_landmarks)
+    {
+        for (int x = 0; x < extracted_landmarks.Length; x++)
+        {
+            Landmark lm = extracted_landmarks[x];
+            int r = (int)(lm.Point.x * (1 / MAX_ERROR));
+            int c = (int)(lm.Point.y * (1 / MAX_ERROR));
+
+            occupancyGrid[r, c].Occupant = Occupant.WALL;
+
+            int i_start = (int)(position.x * (1 / MAX_ERROR));
+            int j_start = (int)(position.y * (1 / MAX_ERROR));
+            int i_d = i_start > r ? -1 : 1;
+            int j_d = j_start > c ? -1 : 1;
+
+            for (int i = i_start; i != r; i += i_d)
+            {
+                for (int j = j_start; j != r; j += j_d)
+                {
+                    if (occupancyGrid[i, j].Occupant == Occupant.UNEXPLORED)
+                    {
+                        occupancyGrid[i, j].Occupant = Occupant.OPEN;
+                    }
+                }
+            }
+        }
+    }
+
+    private void removeOccupant(Landmark lm)
+    {
+        int r = (int)(lm.Point.x * (1 / MAX_ERROR));
+        int c = (int)(lm.Point.y * (1 / MAX_ERROR));
+
+        occupancyGrid[r, c].Occupant = Occupant.OPEN;
+    }
+    #endregion
 }

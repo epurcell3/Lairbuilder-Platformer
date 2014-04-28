@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class MoveScript : MonoBehaviour {
-    public Vector2 speed = new Vector2(10,10);
+    public Vector2 speed = new Vector2(2,6);
 	public int jumpCount = 0;
 	public int totalJumpTime = 20;
 	public int jumpTime = 0;
@@ -17,7 +17,7 @@ public class MoveScript : MonoBehaviour {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
 		if(jumpCount > 0){
-			if(jumpCount < 2 || !grounded())
+			if(jumpTime < 2 || !grounded())
 			{
 
 				if(jumpTime < (totalJumpTime * jumpCount)){
@@ -35,14 +35,15 @@ public class MoveScript : MonoBehaviour {
 				vertical = 0;
 			}
 		}
-		//movement = new Vector2(speed.x * horizontal, speed.y * vertical);
-        movement = new Vector2(speed.x * inputX, speed.y * inputY);
+		movement = new Vector2(speed.x * horizontal, speed.y * vertical);
+        //movement = new Vector2(speed.x * inputX, speed.y * inputY);
 	}
 	bool grounded(){
 
 		if(rigidbody2D.velocity.y == 0){
 			return true;
 		}
+
 		return false;
 	}
     void FixedUpdate()
@@ -55,6 +56,7 @@ public class MoveScript : MonoBehaviour {
 		speed = newSpeed;
 	}
 	public void right(){
+		Debug.Log ("wentRight");
 		horizontal = 1;
 	}
 	public void left(){
