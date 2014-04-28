@@ -93,6 +93,7 @@ public class Tilemap : MonoBehaviour {
                 BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
                 collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size) / 2);
                 collider.size = new Vector2(tile_size, tile_size);
+                collider.name = "Wall";
             }
         }
 
@@ -276,6 +277,7 @@ public class Tilemap : MonoBehaviour {
                     BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
                     collider.center = new Vector2((x * tile_size * 2 + tile_size) / 2, (2 * (h - y * tile_size) + tile_size) / 2);
                     collider.size = new Vector2(tile_size, tile_size);
+                    collider.name = "Wall";
                 }
             }
         }
