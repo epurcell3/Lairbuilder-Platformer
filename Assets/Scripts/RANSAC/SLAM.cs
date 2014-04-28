@@ -31,14 +31,30 @@ public class SLAM : MonoBehaviour{
     int[,] IDtoID;
     int EKFLandmarks = 0;
 
+    //localization and occupancy grid variables
+    private Vector2 position;
+    private Cell[,] occupancyGrid;
+    
+
     void Start()
     {
         Landmark.LIFE = LIFE;
         IDtoID = new int[MAX_LANDMARKS, 2];
+        int width = (int)(48*(1/MAX_ERROR)*2);
+        int height = (int)(24*(1/MAX_ERROR)*2);
+        occupancyGrid = new Cell[width, height];
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                occupancyGrid[i, j] = new Cell(Occupant.OPEN, 1.0f);
+            }
+        }
     }
 
     void Update()
     {
+        position = this.gameObject.transform.position;
         //Raycasting
         List<RANSAC.Sample> points = new List<RANSAC.Sample>();
         for (float i = -fov / 2; i < fov / 2; i += degree_separation)
@@ -68,7 +84,7 @@ public class SLAM : MonoBehaviour{
         Landmark[] extracted_landmarks = new Landmark[lines.Count];
         for (int i = 0; i < lines.Count; i++)
         {
-            extracted_landmarks[i] = GetLineLandmark(lines[i], this.gameObject.transform.position);
+            extracted_landmarks[i] = GetLineLandmark(lines[i], position);
         }
 
         extracted_landmarks = UpdateAndAddLineLandmarks(extracted_landmarks);
@@ -85,12 +101,12 @@ public class SLAM : MonoBehaviour{
 
 	public Vector2 Position
 	{
-		get { return this.gameObject.transform.position; }
+		get { return position; }
 	}
 
-	public int[][] OccupancyGrid
+	public Cell[,] OccupancyGrid
 	{
-		get { return null; }
+		get { return occupancyGrid; }
 	}
 
     public class Landmark
@@ -284,8 +300,49 @@ public class SLAM : MonoBehaviour{
         }
         return -1;
     }
+
 	public bool exploredEnoughToSlam(){
 		return false;
 	}
 
+    public enum Occupant
+    {
+        OPEN = 0, OUTTER_WALL = 1, WALL = 2, DOOR = 3, DANGER = 4, AURA = 5 
+    }
+
+    public class Cell
+    {
+        Occupant occupant;
+        float probability;
+
+        public Cell(Occupant occupant, float probability)
+        {
+            this.occupant = occupant;
+            this.probability = probability;
+        }
+
+        public Occupant Occupant
+        {
+            get { return occupant; }
+            set { occupant = value; }
+        }
+
+        public float Probability
+        {
+            get { return probability; }
+            set { probability = value; }
+        }
+    }
+
+    private void updateOccupancyGrid(Landmark[] extracted_landmarks)
+    {
+        for (int i = 0; i < extracted_landmarks.Length; i++)
+        {
+            Landmark lm = extracted_landmarks[i];
+            int r = (int)(lm.Point.x * (1 / MAX_ERROR));
+            int c = (int)(lm.Point.y * (1 / MAX_ERROR));
+
+            occupancyGrid[r, c].Occupant = Occupant.WALL;
+        }
+    }
 }
