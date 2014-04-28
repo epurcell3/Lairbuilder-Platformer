@@ -20,7 +20,7 @@ public class SearchScript : MonoBehaviour {
 		goalState = goal;
 	}
 	private void doAStar(){
-		int[][] occupancy = slam.OccupancyGrid;
+		SLAM.Cell[,] occupancy = slam.OccupancyGrid;
 	}
 
 
