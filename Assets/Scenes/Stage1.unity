@@ -3057,8 +3057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038b0a7d10c875e429fc2144dc6150c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttons: []
-  tList: []
 --- !u!1 &833057332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3134,6 +3132,8 @@ GameObject:
   - 50: {fileID: 915371226}
   - 114: {fileID: 915371225}
   - 114: {fileID: 915371230}
+  - 114: {fileID: 915371231}
+  - 114: {fileID: 915371232}
   m_Layer: 2
   m_Name: New Sprite
   m_TagString: Untagged
@@ -3224,7 +3224,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 915371224}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc85c50d7b227f3488869fb419a3ce27, type: 3}
   m_Name: 
@@ -3240,6 +3240,45 @@ MonoBehaviour:
   D: 10
   X: .300000012
   C: 10
+--- !u!114 &915371231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 915371224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6aedef38cd7f3346b1927b1d4c2237a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalBased: 0
+--- !u!114 &915371232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 915371224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 897cb128c2903c84c94e070bc635e518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LIFE: 40
+  MAX_ERROR: .5
+  MIN_OBSERVATIONS: 15
+  MAX_RANGE: 1
+  MAX_LANDMARKS: 3000
+  MAX_TRIALS: 100
+  SAMPLES: 10
+  CONSENSUS: 30
+  TOLERANCE: .0500000007
+  DEGREES: 10
+  distance: 8
+  fov: 180
+  angle: 0
+  degree_separation: 1
+  showRays: 0
+  showLines: 0
 --- !u!1 &1599441589
 GameObject:
   m_ObjectHideFlags: 0

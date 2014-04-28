@@ -282,5 +282,8 @@ public class SLAM : MonoBehaviour{
         }
         return -1;
     }
+	public bool exploredEnoughToSlam(){
+		return false;
+	}
 
 }
