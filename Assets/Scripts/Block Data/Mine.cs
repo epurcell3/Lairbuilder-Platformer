@@ -7,7 +7,7 @@ public class Mine : AuraBlock {
 	void Start () {
 		tileId = 5;
 		dataString = "MineAura";
-		cmult = 150;
+		cmult = 400;
 	}
 	
 	// Update is called once per frame
@@ -16,6 +16,6 @@ public class Mine : AuraBlock {
 	}
 	
 	protected int costFunction(int n){
-		return 150*n * n;
+		return 250*n * n;
 	}
 }

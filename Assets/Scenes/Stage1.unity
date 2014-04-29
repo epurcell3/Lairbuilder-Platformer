@@ -74,6 +74,66 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1 &52064279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 52064280}
+  - 131: {fileID: 52064282}
+  - 114: {fileID: 52064281}
+  m_Layer: 0
+  m_Name: GUI-End Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &52064280
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 52064279}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 30}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &52064281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 52064279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c360d7fe37cc54989443349c6860e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &52064282
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 52064279}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: bd155943421de4f479027179911d2879, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 460
+    y: 250
+    width: 128
+    height: 58
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!1 &93996147
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +368,68 @@ MonoBehaviour:
   tileId: 0
   dataString: 
   cmult: 0
+--- !u!1 &360062835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 360062836}
+  - 132: {fileID: 360062837}
+  - 114: {fileID: 360062838}
+  m_Layer: 0
+  m_Name: GUI-End Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360062836
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 360062835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 30}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!132 &360062837
+GUIText:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 360062835}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: Player win text
+  m_Anchor: 0
+  m_Alignment: 0
+  m_PixelOffset: {x: 300, y: 360}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 0}
+  m_Material: {fileID: 0}
+  m_FontSize: 32
+  m_FontStyle: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_PixelCorrect: 1
+  m_RichText: 1
+--- !u!114 &360062838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 360062835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f4b1a5c7e45ef4ab450540d51676f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &367733281
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2917,9 @@ Transform:
   - {fileID: 2042832782}
   - {fileID: 972628818}
   - {fileID: 1691407380}
+  - {fileID: 1028543927}
+  - {fileID: 52064280}
+  - {fileID: 360062836}
   - {fileID: 2006476092}
   - {fileID: 1494697842}
   - {fileID: 1093524849}
@@ -3079,6 +3204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goalBased: 0
   AITime: 0
+  timer: 0
+  deaths: 0
 --- !u!114 &915371232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3148,6 +3275,52 @@ GUITexture:
     y: 0
     width: 95
     height: 95
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
+--- !u!1 &1028543926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1028543927}
+  - 131: {fileID: 1028543928}
+  m_Layer: 0
+  m_Name: GUI-End Back
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028543927
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1028543926}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 25}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!131 &1028543928
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1028543926}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 50d34afd469ddf44aae5c8d95433195e, type: 3}
+  m_Color: {r: .396626294, g: .822559893, b: .963235319, a: .501960814}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 2000
+    height: 1500
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0

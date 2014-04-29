@@ -187,6 +187,8 @@ public class Tilemap : MonoBehaviour {
 		//Debug.Log (id);
 		if(id != 0 && blk.incUses(pdata)){
 			this.lastP = new Vector2 ((float)x, (float)y);
+			if(_map.GetTileAt(x,y).ID != 0)
+				GameObject.Find ("Blocks").GetComponent<BlkData>().blk[_map.GetTileAt(x,y).ID].decUses(pdata);
 	        _map.SetTileAt(x, y, id);
 			int i = aexists (x, y);
 			//Debug.Log (id);

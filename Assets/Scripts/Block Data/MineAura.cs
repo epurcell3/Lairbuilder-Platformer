@@ -12,6 +12,7 @@ public class MineAura : Aura {
 		BoxCollider2D c = gameObject.AddComponent<BoxCollider2D> ();
 		c.center = new Vector2 (0.0f, 0.0f);
 		c.size = new Vector2(1f, 1f);
+		gameObject.layer = 0;
 		c.isTrigger = false;
 		//spriteMaker ();
 		
