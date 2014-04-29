@@ -94,7 +94,7 @@ public class SLAM : MonoBehaviour
         }
 
         extracted_landmarks = UpdateAndAddLineLandmarks(extracted_landmarks);
-
+		updateOccupancyGrid(extracted_landmarks);
         if (showLines)
         {
             foreach (Landmark lm in landmarkDB)
@@ -365,7 +365,7 @@ public class SLAM : MonoBehaviour
 
             for (int i = i_start; i != r; i += i_d)
             {
-                for (int j = j_start; j != r; j += j_d)
+                for (int j = j_start; j != c; j += j_d)
                 {
                     if (occupancyGrid[i, j].Occupant == Occupant.UNEXPLORED)
                     {

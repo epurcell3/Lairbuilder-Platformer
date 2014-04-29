@@ -24,7 +24,7 @@ public class SearchScript  {
 		moveList = doAStar();
 	}
 	public void move(){
-		if(moveList.Count == 0)
+		if(moveList == null || moveList.Count == 0)
 		{
 			mover.stop();
 			atFinalGoal = true;
