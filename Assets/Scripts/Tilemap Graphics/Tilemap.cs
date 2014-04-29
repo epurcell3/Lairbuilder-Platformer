@@ -179,6 +179,18 @@ public class Tilemap : MonoBehaviour {
 		return -1;
 	}
 
+	public void EraseBlockNoResult(float x, float y){
+		int i = aexists ((int)x, (int)y);
+		if(aexists((int)x,(int)y) != -1){
+			GameObject g = auras[i];
+			auras.Remove(auras[i]);
+			Destroy(g);
+		}
+		_map.SetTileAt((int)x, (int)y, 0);
+	}
+
+
+
     public void PlaceBlock(int x, int y, Block blk)
 	{
 		if(_map.GetTileAt(x,y).ID == 11 || _map.GetTileAt(x,y).ID == 10 ||(this.lastP.x == x && this.lastP.y == y))

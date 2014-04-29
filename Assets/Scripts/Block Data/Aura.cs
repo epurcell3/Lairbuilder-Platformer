@@ -12,7 +12,7 @@ public class Aura : MonoBehaviour {
 	protected int totalFrame = 60;
 	protected string sp_file = "flareaura_3";
 	public Color col;
-	Vector3 basePoint;
+	protected Vector3 basePoint;
 
 	// Use this for initialization
 	void Start () {
