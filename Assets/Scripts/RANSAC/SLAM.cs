@@ -37,7 +37,7 @@ public class SLAM : MonoBehaviour
     //localization and occupancy grid variables
     private Vector2 position, estimate_position;
     private Cell[,] occupancyGrid;
-    private float[,] P; //covariance matrix
+    private Matrix P; //covariance matrix
     private float c = 0.01f; //error for position 
     #endregion
 
@@ -56,8 +56,8 @@ public class SLAM : MonoBehaviour
                 occupancyGrid[i, j] = new Cell(Occupant.UNEXPLORED, 1.0f);
             }
         }
-
-        P = new float[3, 3];
+        prev_angle = angle;
+        P = new Matrix(3,3);
     }
 
     void Update()
@@ -67,10 +67,10 @@ public class SLAM : MonoBehaviour
         Vector2 delta_p = rigidbody2D.velocity * Time.deltaTime;
         float delta_t = angle - prev_angle;
         estimate_position = delta_p + position;
-        float[,] A = new float[3, 3] { { 1, 0, -1 * delta_p.y }, { 0, 1, delta_p.x }, { 0, 0, 1 } };
-        float[,] Q = new float[3, 3] { {c*delta_p.x*delta_p.x, c*delta_p.x*delta_p.y, c*delta_p.x*delta_t},
-                                       {c*delta_p.y*delta_p.x, c*delta_p.y*delta_p.y, c*delta_p.y*delta_t},
-                                       {c*delta_t*delta_p.x,   c*delta_t*delta_p.y,   c*delta_t*delta_t} };
+        Matrix A = Matrix.Parse("1  0 " + (-1 * delta_p.y) + "\r\n0 1 "+ (delta_p.x) + "\r\n0 0 1");
+        Matrix Q = Matrix.Parse(c*delta_p.x*delta_p.x +" "+ c*delta_p.x*delta_p.y +" "+ c*delta_p.x*delta_t+"\r\n"+
+                                c*delta_p.y*delta_p.x +" "+ c*delta_p.y*delta_p.y +" "+ c*delta_p.y*delta_t+"\r\n"+
+                                c*delta_t*delta_p.x   +" "+ c*delta_t*delta_p.y   +" "+ c*delta_t*delta_t);
         updatePrr(A, Q);
         updatePri(A);
         #endregion
@@ -121,7 +121,18 @@ public class SLAM : MonoBehaviour
         }
         #endregion
 
+        #region Step 2 - Update state from reobserved landmarks
+        for (int i = 0; i < EKFLandmarks; i++)
+        {
+
+        }
+        #endregion
+
+        #region Step 3
+        EKFLandmarks = DBSize;
+        #endregion
         position = estimate_position;
+        prev_angle = angle;
         
     }
     #endregion
@@ -335,67 +346,89 @@ public class SLAM : MonoBehaviour
     #endregion
 
     #region EKF functions
-    private void updatePrr(float[,] A, float[,] Q)
+    private void updatePrr(Matrix A, Matrix Q)
     {
-        float[,] tmp = new float[3, 3];
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                tmp[i,j] = A[i,0]*P[0,j] + A[i,1]*P[1,j] + A[i,2]*P[2,j];
-            }
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                P[i, j] = tmp[i,j];
-            }
-        }
+        Matrix Prr = new Matrix(3, 3);
+        copyTo(Prr, P, 0, 3, 0, 0, 3, 0);
+        Prr = A * Prr * A + Q;
+        copyTo(P, Prr, 0, 3, 0, 0, 3, 0);
+        //float[,] tmp = new float[3, 3];
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        tmp[i,j] = A[i,0]*P[0,j] + A[i,1]*P[1,j] + A[i,2]*P[2,j];
+        //    }
+        //}
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        P[i, j] = tmp[i,j];
+        //    }
+        //}
 
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                tmp[i, j] = P[i, 0]*A[0, j] + P[i, 1]*A[1, j] + P[i, 2]*A[2, j];
-            }
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                P[i, j] = tmp[i, j];
-            }
-        }
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        tmp[i, j] = P[i, 0]*A[0, j] + P[i, 1]*A[1, j] + P[i, 2]*A[2, j];
+        //    }
+        //}
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        P[i, j] = tmp[i, j];
+        //    }
+        //}
 
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                P[i, j] += Q[i, j];
-            }
-        }
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        P[i, j] += Q[i, j];
+        //    }
+        //}
     }
 
-    private void updatePri(float[,] A)
+    private void updatePri(Matrix A)
     {
-        float[,] tmp = new float[3, P.GetUpperBound(1) + 1];
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 3; j <= P.GetUpperBound(1); j++)
-            {
-                tmp[i,j] = A[i,0]*P[0,j] + A[i,1]*P[1,j] + A[i,2]*P[2,j];
-            }
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 3; j <= P.GetUpperBound(1); j++)
-            {
-                P[i,j] = tmp[i, j];
-            }
-        }
+        if (DBSize <= 0)
+            return;
+        Matrix Pri = new Matrix(3, DBSize * 2);
+        copyTo(Pri, P, 0, 3, 0, 0, DBSize * 2, 3);
+        Pri = A * Pri;
+        copyTo(P, Pri, 0, 3, 0, 3, DBSize * 2 + 3, -3);
+
+        //float[,] tmp = new float[3, P.GetUpperBound(1) + 1];
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 3; j <= P.GetUpperBound(1); j++)
+        //    {
+        //        tmp[i,j] = A[i,0]*P[0,j] + A[i,1]*P[1,j] + A[i,2]*P[2,j];
+        //    }
+        //}
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    for (int j = 3; j <= P.GetUpperBound(1); j++)
+        //    {
+        //        P[i,j] = tmp[i, j];
+        //    }
+        //}
     }
     #endregion
+
+    private void copyTo(Matrix to, Matrix from, int i_start, int i_end, int from_i_offset, int j_start, int j_end, int from_j_offset)
+    {
+        for (int i = i_start; i < i_end; i++)
+        {
+            for (int j = j_start; j < j_end; j++)
+            {
+                to[i, j] = from[i + from_i_offset, j + from_j_offset];
+            }
+        }
+    }
 
     public bool exploredEnoughToSlam()
     {
