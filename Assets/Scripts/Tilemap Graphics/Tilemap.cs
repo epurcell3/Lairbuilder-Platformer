@@ -173,7 +173,7 @@ public class Tilemap : MonoBehaviour {
 			auras[aid].transform.Translate(x,y,10);
 			auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
 			Vector3 cen = auras[aid].transform.position;
-			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,cen.z);
+			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
 		}
 		if(id != 2 && (aexists(x,y) != -1)){
 			GameObject g = auras[i];
