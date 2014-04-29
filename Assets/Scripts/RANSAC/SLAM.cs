@@ -37,8 +37,11 @@ public class SLAM : MonoBehaviour
     //localization and occupancy grid variables
     private Vector2 position, estimate_position;
     private Cell[,] occupancyGrid;
+    private Matrix X; //state matrix
     private Matrix P; //covariance matrix
-    private float c = 0.01f; //error for position 
+    private float c = 0.01f; //error for position
+    private float range_error = 0.01f;
+    private float bearing_error = 0.1f;
     #endregion
 
     #region Unity Calls
@@ -57,16 +60,20 @@ public class SLAM : MonoBehaviour
             }
         }
         prev_angle = angle;
-        P = new Matrix(3,3);
+        P = new Matrix(3, 3);
+        X = new Matrix(3, 1);
     }
 
     void Update()
     {
         #region Step 1 - Update the estimate of the state based on odometry
-        //Update state from odometry
+
         Vector2 delta_p = rigidbody2D.velocity * Time.deltaTime;
         float delta_t = angle - prev_angle;
         estimate_position = delta_p + position;
+        X[0, 0] = estimate_position.x;
+        X[1, 0] = estimate_position.y;
+        X[2, 0] = delta_t;
         Matrix A = Matrix.Parse("1  0 " + (-1 * delta_p.y) + "\r\n0 1 "+ (delta_p.x) + "\r\n0 0 1");
         Matrix Q = Matrix.Parse(c*delta_p.x*delta_p.x +" "+ c*delta_p.x*delta_p.y +" "+ c*delta_p.x*delta_t+"\r\n"+
                                 c*delta_p.y*delta_p.x +" "+ c*delta_p.y*delta_p.y +" "+ c*delta_p.y*delta_t+"\r\n"+
@@ -124,7 +131,38 @@ public class SLAM : MonoBehaviour
         #region Step 2 - Update state from reobserved landmarks
         for (int i = 0; i < EKFLandmarks; i++)
         {
+            Landmark lm = landmarkDB[i];
+            Matrix H = new Matrix(2, DBSize * 2 + 3);
+            H[0, 0] = (estimate_position.x - lm.Point.x) / lm.Range;
+            H[0, 1] = (estimate_position.y - lm.Point.y) / (lm.Range * lm.Range);
+            H[1, 0] = (estimate_position.y - lm.Point.y) / lm.Range;
+            H[1, 1] = (estimate_position.x - lm.Point.x) / (lm.Range * lm.Range);
+            H[2, 0] = 0;
+            H[2, 1] = -1;
+            H[(2 * i) + 3, 0] = -1 * (estimate_position.x - lm.Point.x) / lm.Range; ;
+            H[(2 * i) + 3, 1] = -1 * (estimate_position.y - lm.Point.y) / (lm.Range * lm.Range);
+            H[(2 * i) + 4, 0] = -1 * (estimate_position.y - lm.Point.y) / lm.Range;
+            H[(2 * i) + 4, 1] = -1 * (estimate_position.x - lm.Point.x) / (lm.Range * lm.Range);
 
+            Matrix R = new Matrix(2, 2);
+            R[0, 0] = lm.Range * range_error;
+            R[1, 1] = bearing_error;
+
+            Matrix V = Matrix.IdentityMatrix(2, 2);
+
+            Matrix S = H * P * Matrix.Transpose(H) + V * R * Matrix.Transpose(V);
+
+            Matrix K = P * Matrix.Transpose(H) * S.Invert();
+
+            Matrix z = new Matrix(2, 1);
+            z[0, 0] = lm.Range;
+            z[1, 0] = lm.Bearing;
+
+            Matrix h = new Matrix(2, 1);
+            h[0, 0] = lm.RangeError;
+            h[1, 0] = lm.BearingError;
+
+            X = X + K * (z - h);
         }
         #endregion
 
