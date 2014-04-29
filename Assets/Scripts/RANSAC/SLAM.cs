@@ -167,11 +167,49 @@ public class SLAM : MonoBehaviour
         #endregion
 
         #region Step 3
-        EKFLandmarks = DBSize;
+        for (int i = EKFLandmarks; i < DBSize; i++)
+        {
+            //add landmark to state
+            Landmark lm = landmarkDB[i];
+            Matrix newState = new Matrix(X.rows + 2, 1);
+            copyTo(ref newState, X, 0, X.rows, 0, 0, 1, 0);
+            newState[X.rows, 0] = lm.Point.x;
+            newState[X.rows + 1, 0] = lm.Point.y;
+            X = newState;
+
+            //add landmark to covariance matrix
+            Matrix Jxr = new Matrix(2, 3);
+            Jxr[0, 0] = 1;
+            Jxr[0, 1] = 0;
+            Jxr[0, 2] = -delta_p.y;
+            Jxr[1, 0] = 0;
+            Jxr[1, 1] = 1;
+            Jxr[1, 2] = delta_p.x;
+
+            float delta_thrust = delta_p.y / (float)Math.Sin(angle * Math.PI / 180);
+
+            Matrix Jz = new Matrix(2, 2);
+            Jz[0, 0] = Math.Cos((angle + delta_t)*Math.PI/180);
+            Jz[0, 1] = -delta_thrust * Math.Sin((angle + delta_t) * Math.PI / 180);
+            Jz[1, 0] = Math.Sin((angle + delta_t)*Math.PI/180);
+            Jz[1, 1] = delta_thrust * Math.Cos((angle + delta_t) * Math.PI / 180);
+            
+            Matrix R = new Matrix(2, 2);
+            R[0, 0] = lm.Range * range_error;
+            R[1, 1] = bearing_error;
+
+            addPn1n1(Jxr, Jz, R);
+
+            //add robot - landmark covariance and landmark - robot covariance
+            addPrn1(Jxr);
+
+            //add landmark - landmark covariance
+            addPn1i(Jxr);
+        }
         #endregion
-        position = estimate_position;
+        EKFLandmarks = DBSize;
+        position = new Vector2((float)X[0, 0], (float)X[1, 0]);
         prev_angle = angle;
-        
     }
     #endregion
 
@@ -387,9 +425,9 @@ public class SLAM : MonoBehaviour
     private void updatePrr(Matrix A, Matrix Q)
     {
         Matrix Prr = new Matrix(3, 3);
-        copyTo(Prr, P, 0, 3, 0, 0, 3, 0);
+        copyTo(ref Prr, P, 0, 3, 0, 0, 3, 0);
         Prr = A * Prr * A + Q;
-        copyTo(P, Prr, 0, 3, 0, 0, 3, 0);
+        copyTo(ref P, Prr, 0, 3, 0, 0, 3, 0);
         //float[,] tmp = new float[3, 3];
         //for (int i = 0; i < 3; i++)
         //{
@@ -435,9 +473,9 @@ public class SLAM : MonoBehaviour
         if (DBSize <= 0)
             return;
         Matrix Pri = new Matrix(3, DBSize * 2);
-        copyTo(Pri, P, 0, 3, 0, 0, DBSize * 2, 3);
+        copyTo(ref Pri, P, 0, 3, 0, 0, DBSize * 2, 3);
         Pri = A * Pri;
-        copyTo(P, Pri, 0, 3, 0, 3, DBSize * 2 + 3, -3);
+        copyTo(ref P, Pri, 0, 3, 0, 3, DBSize * 2 + 3, -3);
 
         //float[,] tmp = new float[3, P.GetUpperBound(1) + 1];
         //for (int i = 0; i < 3; i++)
@@ -455,9 +493,46 @@ public class SLAM : MonoBehaviour
         //    }
         //}
     }
+
+    private void addPn1n1(Matrix Jxr, Matrix Jz, Matrix R)
+    {
+        Matrix Prr = new Matrix(3, 3);
+        copyTo(ref Prr, P, 0, 3, 0, 0, 3, 0);
+
+        Matrix Pn1n1 = Jxr * Prr * Matrix.Transpose(Jxr) + Jz * R * Matrix.Transpose(Jz);
+
+        Matrix newP = new Matrix(P.rows + 2, P.cols + 2);
+        copyTo(ref newP, P, 0, P.rows, 0, 0, P.cols, 0);
+        newP[P.rows, P.cols] = Pn1n1[0, 0];
+        newP[P.rows, P.cols + 1] = Pn1n1[0, 1];
+        newP[P.rows + 1, P.cols] = Pn1n1[1, 0];
+        newP[P.rows + 1, P.cols + 1] = Pn1n1[1, 1];
+
+        P = newP;
+    }
+
+    private void addPrn1(Matrix Jxr)
+    {
+        Matrix Prr = new Matrix(3, 3);
+        copyTo(ref Prr, P, 0, 3, 0, 0, 3, 0);
+        Matrix Prn1 = Prr * Matrix.Transpose(Jxr);
+        Matrix Pn1r = Matrix.Transpose(Prn1);
+        copyTo(ref P, Prn1, 0, 3, 0, 0, 2, P.cols - 2);
+        copyTo(ref P, Pn1r, 0, 2, P.rows - 2, 0, 3, 0);
+    }
+
+    private void addPn1i(Matrix Jxr)
+    {
+        Matrix Pri = new Matrix(3, P.rows - 2 - 3);
+        copyTo(ref Pri, P, 0, 3, 0, 0, P.rows - 2 - 3, 3);
+        Matrix Pn1i = Jxr * Pri;
+        Matrix Pin1 = Matrix.Transpose(Pn1i);
+        copyTo(ref P, Pn1i, P.rows - 2, P.rows, -1 * (P.rows - 2), 3, P.cols - 2, -3);
+        copyTo(ref P, Pin1, 3, P.rows - 2, -3, P.cols - 2, P.cols, -1 * (P.cols - 2));
+    }
     #endregion
 
-    private void copyTo(Matrix to, Matrix from, int i_start, int i_end, int from_i_offset, int j_start, int j_end, int from_j_offset)
+    private void copyTo(ref Matrix to, Matrix from, int i_start, int i_end, int from_i_offset, int j_start, int j_end, int from_j_offset)
     {
         for (int i = i_start; i < i_end; i++)
         {
