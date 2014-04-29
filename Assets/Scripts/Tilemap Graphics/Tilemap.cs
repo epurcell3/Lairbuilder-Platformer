@@ -26,7 +26,7 @@ public class Tilemap : MonoBehaviour {
 
     public float tile_size = 1.0f;
 
-    public int solid_threshold = 5; //where tiles become solid;
+	public int solid_threshold = 10; //where tiles become solid;
 
     public Texture2D tileset; //texture of the tiles
 
@@ -44,6 +44,7 @@ public class Tilemap : MonoBehaviour {
 	private Vector2 location;
 	private int b_type = -1;
 	private string blstr = "blank";
+	private int acount;
 
 
     //Event handler for setting a new tile
@@ -164,11 +165,13 @@ public class Tilemap : MonoBehaviour {
 
     public void PlaceBlock(int x, int y, int id)
     {
+		if(_map.GetTileAt(x,y).ID == 10)
+			return;
         _map.SetTileAt(x, y, id);
 		int i = aexists (x, y);
-		Debug.Log (i);
-		if(id < 5 && id > 0 && (aexists(x,y) == -1)){
-			auras.Add(new GameObject("Aura" + auras.Count));
+		//Debug.Log (id);
+		if((id <= 9) && (id > 0) && (aexists(x,y) == -1)){
+			auras.Add(new GameObject("Aura" + ++this.acount));
 			int aid = auras.Count - 1;
 			auras[aid].AddComponent(blstr);
 			auras[aid].transform.Translate(x,y,10);
@@ -176,7 +179,8 @@ public class Tilemap : MonoBehaviour {
 			Vector3 cen = auras[aid].transform.position;
 			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
 		}
-		if((id > 5 || id == 0) && (aexists(x,y) != -1)){
+
+		if(((id >= 10) || (id == 0)) && (aexists(x,y) != -1)){
 			GameObject g = auras[i];
 			auras.Remove(auras[i]);
 			DestroyImmediate(g);
@@ -240,11 +244,13 @@ public class Tilemap : MonoBehaviour {
 		
 		if (Input.GetMouseButton (0) && mouseTile.z == 0.0) {
 			//Draw a block. This is hardcoded for now.
-			if(!collided && b_type != 0 && b_type != -1)
+			/*if(!collided && b_type != 0 && b_type != -1)
 				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), b_type);
 			else if(b_type == 0)
 			//Erase a block.
-				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
+				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), b_type);*/
+			if(b_type != -1)
+				this.PlaceBlock((int)(mouseTile.x), (int)(mouseTile.y), b_type);
 		}
 	}
 
@@ -338,6 +344,7 @@ public class Tilemap : MonoBehaviour {
     }
 
 	public void updateType(int a, string s){
+		//Debug.Log ("UPD" + a);
 		if (this.b_type == a) {
 			this.b_type = -1;
 			this.blstr = "";

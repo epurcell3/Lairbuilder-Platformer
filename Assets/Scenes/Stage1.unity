@@ -247,7 +247,7 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 420
+    y: 500
     width: 64
     height: 32
   m_LeftBorder: 0
@@ -334,7 +334,7 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 380
+    y: 460
     width: 64
     height: 32
   m_LeftBorder: 0
@@ -3047,8 +3047,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 222043769}
+  - {fileID: 2130835798}
   - {fileID: 267239702}
   - {fileID: 1981693192}
+  - {fileID: 1436275905}
+  - {fileID: 1431719850}
   m_Father: {fileID: 1620400257}
 --- !u!114 &543749439
 MonoBehaviour:
@@ -3283,6 +3286,154 @@ MonoBehaviour:
   degree_separation: 1
   showRays: 0
   showLines: 0
+--- !u!1 &1431719849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1431719850}
+  - 131: {fileID: 1431719853}
+  - 114: {fileID: 1431719852}
+  - 114: {fileID: 1431719851}
+  m_Layer: 8
+  m_Name: GUI-Button Mine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1431719850
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431719849}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &1431719851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431719849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0a58b6740f6494883842174cb9e12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileId: 0
+  dataString: 
+--- !u!114 &1431719852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431719849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecbbb07ba4d6284f9f403d53a2255be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &1431719853
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431719849}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: e72c4221175e3e542963f2b75fe7b7d7, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 14
+    y: 300
+    width: 64
+    height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
+--- !u!1 &1436275904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1436275905}
+  - 131: {fileID: 1436275908}
+  - 114: {fileID: 1436275907}
+  - 114: {fileID: 1436275906}
+  m_Layer: 8
+  m_Name: GUI-Button Turret
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1436275905
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1436275904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &1436275906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1436275904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74ea372aba626541a6a8d048354e3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileId: 0
+  dataString: 
+--- !u!114 &1436275907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1436275904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecbbb07ba4d6284f9f403d53a2255be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &1436275908
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1436275904}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: db9299d2b22ebb34e8f02033a0b6714e, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 14
+    y: 340
+    width: 64
+    height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!1 &1599441589
 GameObject:
   m_ObjectHideFlags: 0
@@ -3507,7 +3658,81 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 340
+    y: 420
+    width: 64
+    height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
+--- !u!1 &2130835797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2130835798}
+  - 131: {fileID: 2130835801}
+  - 114: {fileID: 2130835800}
+  - 114: {fileID: 2130835799}
+  m_Layer: 8
+  m_Name: GUI-Button Slow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2130835798
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2130835797}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &2130835799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2130835797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81488be8c3ffd945a4409fc499a3f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileId: 0
+  dataString: 
+--- !u!114 &2130835800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2130835797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecbbb07ba4d6284f9f403d53a2255be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &2130835801
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2130835797}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: fdbe753938297384b8e44b3777f95bfd, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 14
+    y: 380
     width: 64
     height: 32
   m_LeftBorder: 0

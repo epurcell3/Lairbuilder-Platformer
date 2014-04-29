@@ -67,6 +67,6 @@ public class AIScript : MonoBehaviour {
 	}
 
 	public void die(){
-
+		Debug.Log ("Died at " + Time.time);
 	}
 }

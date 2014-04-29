@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Tile_D {
 	private int id;
-    public static int SOLID_THRESHOLD = 5;
+    public static int SOLID_THRESHOLD = 10;
 
 	public Tile_D(int id)
 	{

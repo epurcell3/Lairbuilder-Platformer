@@ -58,17 +58,17 @@ public class Aura : MonoBehaviour {
 		return this.basePoint;
 	}
 	
-	void OnTriggerEnter2D(Collider2D other){
+	protected void OnTriggerEnter2D(Collider2D other){
 		timeenter = Time.time;
-		Debug.Log ("In Aura at " + timeenter);
+		//Debug.Log ("In Aura at " + timeenter);
 	}
 	
-	void OnTriggerExit2D(Collider2D other){
+	protected void OnTriggerExit2D(Collider2D other){
 		timeexit = Time.time;
-		Debug.Log ("Left Aura at "+timeexit+". Total of " + (timeexit-timeenter));
+		//Debug.Log ("Left Aura at "+timeexit+". Total of " + (timeexit-timeenter));
 	}
 
-	void OnTriggerStay2D(Collider2D other){
+	protected void OnTriggerStay2D(Collider2D other){
 		//Debug.Log ("Yep, still in.");
 	}
 
