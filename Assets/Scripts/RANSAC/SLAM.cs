@@ -35,7 +35,7 @@ public class SLAM : MonoBehaviour
 
     //localization and occupancy grid variables
     private Vector2 position;
-    private Cell[,] occupancyGrid;
+    private OccupancyGrid occupancyGrid;
     #endregion
 
     #region Unity Calls
@@ -45,7 +45,7 @@ public class SLAM : MonoBehaviour
         IDtoID = new int[MAX_LANDMARKS, 2];
         int width = (int)(48*(1/MAX_ERROR)*2);
         int height = (int)(24*(1/MAX_ERROR)*2);
-        occupancyGrid = new Cell[width, height];
+        occupancyGrid = new OccupancyGrid(width, height);
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -112,7 +112,7 @@ public class SLAM : MonoBehaviour
 		get { return position; }
 	}
 
-	public Cell[,] OccupancyGrid
+	public OccupancyGrid OccupantGrid
 	{
 		get { return occupancyGrid; }
 	}
