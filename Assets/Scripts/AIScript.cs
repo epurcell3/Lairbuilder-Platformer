@@ -90,7 +90,7 @@ public class AIScript : MonoBehaviour {
 
 	}
 	void pickGoalState(){
-		SLAM.Cell[,] grid = slam.OccupantGrid;
+		OccupancyGrid grid = slam.OccupantGrid;
 		int maxValue = int.MinValue;
 		Vector2 maxGridPos = new Vector2(0,0);
 		if(grid != null){
