@@ -43,6 +43,7 @@ public class Tilemap : MonoBehaviour {
 	// Storing where the map is in screenspace is a big deal... Just have to figure out
 	private Vector2 location;
 	private int b_type = -1;
+	private string blstr = "blank";
 
 
     //Event handler for setting a new tile
@@ -166,16 +167,16 @@ public class Tilemap : MonoBehaviour {
         _map.SetTileAt(x, y, id);
 		int i = aexists (x, y);
 		Debug.Log (i);
-		if(id == 2 && (aexists(x,y) == -1)){
+		if(id < 5 && id > 0 && (aexists(x,y) == -1)){
 			auras.Add(new GameObject("Aura" + auras.Count));
 			int aid = auras.Count - 1;
-			auras[aid].AddComponent("Aura");
+			auras[aid].AddComponent(blstr);
 			auras[aid].transform.Translate(x,y,10);
 			auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
 			Vector3 cen = auras[aid].transform.position;
 			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
 		}
-		if(id != 2 && (aexists(x,y) != -1)){
+		if((id > 5 || id == 0) && (aexists(x,y) != -1)){
 			GameObject g = auras[i];
 			auras.Remove(auras[i]);
 			DestroyImmediate(g);
@@ -336,11 +337,14 @@ public class Tilemap : MonoBehaviour {
         return new Vector3(v.x, v.y, valid);
     }
 
-	public void updateType(int a){
-		if (this.b_type == a)
+	public void updateType(int a, string s){
+		if (this.b_type == a) {
 			this.b_type = -1;
-		else
+			this.blstr = "";
+		} else {
 			this.b_type = a;
+			this.blstr = s;
+		}
 	}
 
 	public int tileType(){

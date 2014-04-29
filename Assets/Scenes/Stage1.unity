@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileId: 0
+  dataString: 
 --- !u!1 &267239699
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileId: 0
+  dataString: 
 --- !u!1 &367733281
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041d6bc9df0f4e548b6a456fda28122e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  auras: []
   input_method: 1
   size_x: 3
   size_y: 2
@@ -3449,7 +3452,7 @@ GameObject:
   - 114: {fileID: 1981693194}
   - 114: {fileID: 1981693193}
   m_Layer: 8
-  m_Name: GUI-Button Aura Test
+  m_Name: GUI-Button Dark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3474,10 +3477,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1981693191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bbd3cf7b2ba4bf4f908ed18df44a3c9, type: 3}
+  m_Script: {fileID: 11500000, guid: f70e55b7754c43f419b09a347dd672a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tileId: 0
+  dataString: 
 --- !u!114 &1981693194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3498,7 +3502,7 @@ GUITexture:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1981693191}
   m_Enabled: 1
-  m_Texture: {fileID: 2800000, guid: 3a675b3a553d6e348a88de78c52376c6, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7c695fc25664af84fb20cbac065ba1f4, type: 3}
   m_Color: {r: .5, g: .5, b: .5, a: .5}
   m_PixelInset:
     serializedVersion: 2
