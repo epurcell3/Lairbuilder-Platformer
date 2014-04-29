@@ -74,7 +74,7 @@ public class SearchScript  {
 		}
 	}
 	private ArrayList doAStar(){
-		SLAM.Cell[,] occupancy = slam.OccupancyGrid;
+		SLAM.Cell[,] occupancy = slam.OccupantGrid;
 		PriorityQueue<AStarNode> aStarQueue = new PriorityQueue<AStarNode>();
 		Vector2 currentPos = slam.Position;
 		int loopCap = 0;

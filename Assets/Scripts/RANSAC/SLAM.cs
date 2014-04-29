@@ -112,7 +112,7 @@ public class SLAM : MonoBehaviour
 		get { return position; }
 	}
 
-	public OccupancyGrid OccupancyGrid
+	public OccupancyGrid OccupantGrid
 	{
 		get { return occupancyGrid; }
 	}
