@@ -7,8 +7,8 @@ public class AIScript : MonoBehaviour {
 	public bool goalBased;
 	private Vector2 goalState;
 	private Rigidbody2D body;
-	private SimpleExploreScript explorer;
-	private int AITime = 0;
+	public SimpleExploreScript explorer;
+	public int AITime = 0;
 	private SearchScript searcher;
 	private bool started = false;
 	// Use this for initialization
@@ -20,7 +20,6 @@ public class AIScript : MonoBehaviour {
 		goalBased = false;
 
 		if (mover != null) {
-			Debug.Log("Mover Not Null");
 			mover.setSpeed (new Vector2 (6, 14));
 			explorer = new SimpleExploreScript (mover, body); 
 			searcher = new SearchScript(body, slam, mover);
@@ -34,30 +33,37 @@ public class AIScript : MonoBehaviour {
 		if(Input.GetKeyDown("space"))
 		   started = true;
 		if(started){
-			if (mover == null) {
-				Debug.Log("Mover Null");
+
+			if (mover == null ||AITime ==0) {
 				mover = gameObject.GetComponent<MoveScript> ();
 				mover.setSpeed (new Vector2 (6, 14));
 				explorer = new SimpleExploreScript (mover, body); 	
 			}
 			if (! goalBased) {
 				goalBased = slam.exploredEnoughToSlam();
-				if(AITime >300){
+				if(AITime >350){
 					goalBased = true;
 				}
 
 			}
 			if (goalBased) {
-				if(searcher == null || searcher.atFinalGoal()){
-
+				if(searcher == null || searcher.atFinalGoal){
 					pickGoalState();
+					searcher = new SearchScript(body, slam, mover);
+					searcher.setGoalState(goalState);
 				}
-
+				else{
+					searcher.move();
+				}
 					
 			} 
 			else {
 				AITime++;
-				explorer.move ();
+				if(AITime < 325)
+					explorer.move ();
+				else if(AITime < 350){
+					mover.stop();
+				}
 
 			}
 		}
@@ -100,6 +106,7 @@ public class AIScript : MonoBehaviour {
 	}
 	
 	public void die(){
+		searcher = null;
 		Debug.Log ("Died at " + Time.time);
 	}
 	private int evalueatePos(Vector2 pos, SLAM.Cell[,] grid){
@@ -126,6 +133,5 @@ public class AIScript : MonoBehaviour {
 	}
 	private int manhattanDist(Vector2 start, Vector2 dest){
 		return (int)Mathf.Abs((int)start.x - (int)dest.x) + Mathf.Abs((int)start.y - (int)dest.y);
-	
 	}
 }

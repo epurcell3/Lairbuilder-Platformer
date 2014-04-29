@@ -56,21 +56,27 @@ public class MoveScript : MonoBehaviour {
 		speed = newSpeed;
 	}
 	public void right(){
-		Debug.Log ("wentRight");
+		Debug.Log("Right");
 		horizontal = 1;
 	}
 	public void left(){
+		Debug.Log("Left");
 		horizontal = -1;
 	}
 	public void stop(){
+		Debug.Log("Stop");
 		horizontal = 0;
+		vertical = 0;
+
 	}
 	public void jump(){
+		Debug.Log("Jump");
 		if (jumpCount == 0){
 			jumpCount = 1;
 		}
 	}
 	public void doubleJump(){
+		Debug.Log("DoubleJump");
 		if (jumpCount == 0){
 			jumpCount = 1;
 		}
