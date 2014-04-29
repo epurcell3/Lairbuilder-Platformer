@@ -20,7 +20,7 @@ public class OccupancyGrid
         {
             for (int j = 0; j < cols; j++)
             {
-                grid[i, j].Occupant = SLAM.Occupant.UNEXPLORED;
+                grid[i, j] = new SLAM.Cell(SLAM.Occupant.UNEXPLORED,1f);
             }
         }
     }
@@ -55,7 +55,7 @@ public class OccupancyGrid
                     for (int j2 = 0; j2 < cols; j2++)
                     {
                         if (i2 < rows / 2 || i2 >= 3 * rows / 2)
-                            newgrid[i2, j2].Occupant = SLAM.Occupant.UNEXPLORED;
+                            new SLAM.Cell(SLAM.Occupant.UNEXPLORED, 1f);
                         else
                             newgrid[i2, j2] = grid[i2 + xoffset - rows / 2, j2 + yoffset];
                     }
@@ -72,7 +72,7 @@ public class OccupancyGrid
                     for (int j2 = 0; j2 < cols * 2; j2++)
                     {
                         if (j2 < cols / 2 || j2 >= 3 * cols / 2)
-                            newgrid[i2, j2].Occupant = SLAM.Occupant.UNEXPLORED;
+                            new SLAM.Cell(SLAM.Occupant.UNEXPLORED, 1f);
                         else
                             newgrid[i2, j2] = grid[i2 + xoffset, j2 + yoffset - cols/2];
                     }
