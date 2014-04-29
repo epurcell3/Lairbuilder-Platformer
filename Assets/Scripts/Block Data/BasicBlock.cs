@@ -5,7 +5,7 @@ public class BasicBlock : Block {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 35;
+		tileId = 12;
 		dataString = "Wall";
 	}
 	

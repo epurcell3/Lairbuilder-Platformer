@@ -22,7 +22,7 @@ public class Tilemap : MonoBehaviour {
     public int size_x = 40; //tiles wide
     public int size_y = 24; //tiles high
 
-    public int tile_resolution = 16; //pixels across, assume square
+	public int tile_resolution = 32;//16; //pixels across, assume square
 
     public float tile_size = 1.0f;
 
@@ -45,6 +45,8 @@ public class Tilemap : MonoBehaviour {
 	private int b_type = -1;
 	private string blstr = "blank";
 	private int acount;
+
+	private Vector2 lastP = new Vector2 (-1f, -1f);
 
 
     //Event handler for setting a new tile
@@ -123,8 +125,8 @@ public class Tilemap : MonoBehaviour {
                 tile_resolution = Convert.ToInt32(o["tileheight"]);
                 try
                 {
-                    //solid_threshold = Convert.ToInt32(o["tilesets"][0]["properties"]["solid_threshold"]);
-					solid_threshold = 5;
+                    solid_threshold = Convert.ToInt32(o["tilesets"][0]["properties"]["solid_threshold"]);
+					//solid_threshold = 10;
                 } catch {
                  solid_threshold = 1;    
                 }
@@ -165,12 +167,18 @@ public class Tilemap : MonoBehaviour {
 
     public void PlaceBlock(int x, int y, int id)
     {
-		if(_map.GetTileAt(x,y).ID == 10)
+		if(_map.GetTileAt(x,y).ID == 11 || (this.lastP.x == x && this.lastP.y == y))
 			return;
+		this.lastP = new Vector2 ((float)x, (float)y);
         _map.SetTileAt(x, y, id);
 		int i = aexists (x, y);
 		//Debug.Log (id);
-		if((id <= 9) && (id > 0) && (aexists(x,y) == -1)){
+		if(aexists(x,y) != -1){
+			GameObject g = auras[i];
+			auras.Remove(auras[i]);
+			DestroyImmediate(g);
+		}
+		if((id <= 10) && (id > 1) && (aexists(x,y) == -1)){
 			auras.Add(new GameObject("Aura" + ++this.acount));
 			int aid = auras.Count - 1;
 			auras[aid].AddComponent(blstr);
@@ -178,12 +186,6 @@ public class Tilemap : MonoBehaviour {
 			auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
 			Vector3 cen = auras[aid].transform.position;
 			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
-		}
-
-		if(((id >= 10) || (id == 0)) && (aexists(x,y) != -1)){
-			GameObject g = auras[i];
-			auras.Remove(auras[i]);
-			DestroyImmediate(g);
 		}
     }
 
@@ -348,7 +350,9 @@ public class Tilemap : MonoBehaviour {
 		if (this.b_type == a) {
 			this.b_type = -1;
 			this.blstr = "";
+			this.lastP = new Vector2(-1f, -1f);
 		} else {
+			this.lastP = new Vector2(-1f, -1f);
 			this.b_type = a;
 			this.blstr = s;
 		}

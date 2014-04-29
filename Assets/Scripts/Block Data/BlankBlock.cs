@@ -5,7 +5,7 @@ public class BlankBlock : Block {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 0;
+		tileId = 1;
 		dataString = "Blank";
 	}
 	

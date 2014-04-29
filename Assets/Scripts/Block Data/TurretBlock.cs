@@ -5,7 +5,7 @@ public class TurretBlock : AuraBlock {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 1;
+		tileId = 2;
 		dataString = "TurretAura";
 	}
 	

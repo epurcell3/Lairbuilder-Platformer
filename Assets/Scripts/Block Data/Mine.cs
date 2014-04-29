@@ -5,7 +5,7 @@ public class Mine : AuraBlock {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 4;
+		tileId = 5;
 		dataString = "MineAura";
 	}
 	

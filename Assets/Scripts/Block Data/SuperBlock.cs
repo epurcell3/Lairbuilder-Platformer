@@ -5,7 +5,7 @@ public class NormalBlock : Block {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 10;
+		tileId = 11;
 		dataString = "SuperBlock";
 	}
 	

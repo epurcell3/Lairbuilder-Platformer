@@ -5,7 +5,7 @@ public class SlowBlock : AuraBlock {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 2;
+		tileId = 3;
 		dataString = "SlowAura";
 	}
 	

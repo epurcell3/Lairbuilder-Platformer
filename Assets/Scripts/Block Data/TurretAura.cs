@@ -9,8 +9,7 @@ public class TurretAura : Aura {
 	void Start () {
 		sp_file = "turret";
 		totalFrame = 1;
-		effectSize = 128f;
-		ini (2.5f, new Color(1f,1f,1f));//213f/256f, 102f/256f, 14f/256f));
+		ini (2.5f, new Color(213f/256f, 102f/256f, 14f/256f));
 		makeCollider ();
 		spriteMaker ();
 		actor = GameObject.Find ("AI");
