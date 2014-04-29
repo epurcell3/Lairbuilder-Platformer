@@ -24,6 +24,9 @@ public class MineAura : Aura {
 	void OnCollisionEnter2D(Collision2D other){
 		if(other.gameObject.GetComponent<AIScript>() != null){
 			other.gameObject.GetComponent<AIScript>().die();
+			float x = this.basePoint.x;
+			float y = this.basePoint.y;
+			GameObject.Find("Wall").GetComponent<Tilemap>().EraseBlockNoResult(x,y);
 		}
 	}
 
