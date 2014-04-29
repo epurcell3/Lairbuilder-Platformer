@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasicBlock : Block {
+public class Mine : AuraBlock {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 12;
-		dataString = "Wall";
+		tileId = 5;
+		dataString = "MineAura";
 	}
 	
 	// Update is called once per frame

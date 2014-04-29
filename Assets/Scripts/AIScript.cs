@@ -100,7 +100,7 @@ public class AIScript : MonoBehaviour {
 	}
 	
 	public void die(){
-
+		Debug.Log ("Died at " + Time.time);
 	}
 	private int evalueatePos(Vector2 pos, SLAM.Cell[,] grid){
 

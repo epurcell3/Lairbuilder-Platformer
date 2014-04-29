@@ -5,7 +5,7 @@ public class DarkBlock : AuraBlock {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 3;
+		tileId = 4;
 		dataString = "DarkAura";
 	
 	}

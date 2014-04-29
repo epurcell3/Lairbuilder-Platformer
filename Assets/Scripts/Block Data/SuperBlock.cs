@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasicBlock : Block {
+public class NormalBlock : Block {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 12;
-		dataString = "Wall";
+		tileId = 11;
+		dataString = "SuperBlock";
 	}
 	
 	// Update is called once per frame
