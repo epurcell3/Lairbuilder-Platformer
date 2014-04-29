@@ -50,6 +50,12 @@ public class AIScript : MonoBehaviour {
 				if(searcher == null || searcher.atFinalGoal){
 					pickGoalState();
 					searcher = new SearchScript(body, slam, mover);
+				//	if(gameObject.GetComponent<SpriteRenderer>() == null)
+				//		gameObject.AddComponent<SpriteRenderer> ();
+				//	gameObject.GetComponent<SpriteRenderer> ().color =  Color.yellow;
+				//	gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create (Resources.Load ("flareaura_3") as Texture2D, new Rect ((float)(32f*1), 0.0f, 32f, 32f), new Vector2 (0.5f, 0.5f), 32f / 2.5f / 2.0f);
+
+					Debug.Log ("final Goal state: " + goalState.x + " , " + goalState.y + " ");
 					searcher.setGoalState(goalState);
 				}
 				else{
@@ -81,8 +87,12 @@ public class AIScript : MonoBehaviour {
 		int maxValue = int.MinValue;
 		Vector2 maxGridPos = new Vector2(0,0);
 		if(grid != null){
+			Debug.Log("Grid dimentions: " + grid.GetLength(0) + " , " + grid.GetLength(1));
 			for (int i = 0; i < grid.GetLength(0);i++){
 				for(int j = 0; j < grid.GetLength(1); j++){
+
+				//	Debug.Log ("tested: " + i + " , " + j +" ");
+					grid = slam.OccupancyGrid;
 					int tempValue = int.MinValue;
 					if(grid[i,j].Occupant == SLAM.Occupant.DOOR){
 						goalState = new Vector2(i,j);
