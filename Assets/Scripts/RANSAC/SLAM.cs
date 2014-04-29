@@ -23,6 +23,7 @@ public class SLAM : MonoBehaviour
     public float distance = 5;
     public float fov = 90;
     public float angle = 0;
+    private float prev_angle;
     public float degree_separation = 1f;
     public bool showRays = false;
     public bool showLines = false;
@@ -34,8 +35,10 @@ public class SLAM : MonoBehaviour
     int EKFLandmarks = 0;
 
     //localization and occupancy grid variables
-    private Vector2 position;
+    private Vector2 position, estimate_position;
     private Cell[,] occupancyGrid;
+    private float[,] P; //covariance matrix
+    private float c = 0.01f; //error for position 
     #endregion
 
     #region Unity Calls
@@ -53,12 +56,26 @@ public class SLAM : MonoBehaviour
                 occupancyGrid[i, j] = new Cell(Occupant.UNEXPLORED, 1.0f);
             }
         }
+
+        P = new float[3, 3];
     }
 
     void Update()
     {
-        position = this.gameObject.transform.position;
-        //Raycasting
+        #region Step 1 - Update the estimate of the state based on odometry
+        //Update state from odometry
+        Vector2 delta_p = rigidbody2D.velocity * Time.deltaTime;
+        float delta_t = angle - prev_angle;
+        estimate_position = delta_p + position;
+        float[,] A = new float[3, 3] { { 1, 0, -1 * delta_p.y }, { 0, 1, delta_p.x }, { 0, 0, 1 } };
+        float[,] Q = new float[3, 3] { {c*delta_p.x*delta_p.x, c*delta_p.x*delta_p.y, c*delta_p.x*delta_t},
+                                       {c*delta_p.y*delta_p.x, c*delta_p.y*delta_p.y, c*delta_p.y*delta_t},
+                                       {c*delta_t*delta_p.x,   c*delta_t*delta_p.y,   c*delta_t*delta_t} };
+        updatePrr(A, Q);
+        updatePri(A);
+        #endregion
+
+        #region Landmark extraction
         List<RANSAC.Sample> points = new List<RANSAC.Sample>();
         for (float i = -fov / 2; i < fov / 2; i += degree_separation)
         {
@@ -102,6 +119,9 @@ public class SLAM : MonoBehaviour
                 Debug.DrawRay(lm.Point, lm.D, Color.red);
             }
         }
+        #endregion
+
+        position = estimate_position;
         
     }
     #endregion
@@ -314,7 +334,71 @@ public class SLAM : MonoBehaviour
     }
     #endregion
 
-    public bool exploredEnoughToSlam(){
+    #region EKF functions
+    private void updatePrr(float[,] A, float[,] Q)
+    {
+        float[,] tmp = new float[3, 3];
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                tmp[i,j] = A[i,0]*P[0,j] + A[i,1]*P[1,j] + A[i,2]*P[2,j];
+            }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                P[i, j] = tmp[i,j];
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                tmp[i, j] = P[i, 0]*A[0, j] + P[i, 1]*A[1, j] + P[i, 2]*A[2, j];
+            }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                P[i, j] = tmp[i, j];
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                P[i, j] += Q[i, j];
+            }
+        }
+    }
+
+    private void updatePri(float[,] A)
+    {
+        float[,] tmp = new float[3, P.GetUpperBound(1) + 1];
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 3; j <= P.GetUpperBound(1); j++)
+            {
+                tmp[i,j] = A[i,0]*P[0,j] + A[i,1]*P[1,j] + A[i,2]*P[2,j];
+            }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 3; j <= P.GetUpperBound(1); j++)
+            {
+                P[i,j] = tmp[i, j];
+            }
+        }
+    }
+    #endregion
+
+    public bool exploredEnoughToSlam()
+    {
 		return false;
 	}
 
