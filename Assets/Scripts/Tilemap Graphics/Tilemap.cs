@@ -113,7 +113,7 @@ public class Tilemap : MonoBehaviour {
 		for(int i = 0; i < size_x; i++){
 			for(int j = 0; j < size_y; j++){
 				if(_map.GetTileAt(i,j).ID == 10){
-					Debug.Log (i + " "+ j);	
+//					Debug.Log (i + " "+ j);	
 					GameObject door = new GameObject("Door");
 					door.AddComponent("DoorAura");
 					door.transform.Translate(i,j,10);

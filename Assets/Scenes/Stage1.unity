@@ -74,6 +74,52 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1 &93996147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 93996148}
+  - 131: {fileID: 93996149}
+  m_Layer: 8
+  m_Name: GUI-BG Hacks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &93996148
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 93996147}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!131 &93996149
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 93996147}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 50d34afd469ddf44aae5c8d95433195e, type: 3}
+  m_Color: {r: .176470593, g: .176470593, b: .176470593, a: .501960814}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 100
+    width: 95
+    height: 195
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!1 &222043767
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +150,7 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 500
+    y: 520
     width: 64
     height: 32
   m_LeftBorder: 0
@@ -191,7 +237,7 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 460
+    y: 480
     width: 64
     height: 32
   m_LeftBorder: 0
@@ -452,163 +498,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   auras: []
   input_method: 1
-  size_x: 40
-  size_y: 24
+  size_x: 3
+  size_y: 2
   tile_resolution: 32
   tile_size: 1
-  solid_threshold: 11
+  solid_threshold: 2
   tileset: {fileID: 2800000, guid: 2fbb5bedf82537544b339f603d77af2d, type: 3}
-  tile_ids: "\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r
-    \ 11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  10,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  1111,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  11,\r  11,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  10,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r
-    \ 11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  11,\r  11,\r
-    \ 0,\r  0,\r  0,\r  0,\r  0,\r  11,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r  0,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r
-    \ 11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11,\r  11\r"
+  tile_ids: 0,1,127,114, 5, 1
   tiled_filepath: Assets\Maps\grunge test.json
 --- !u!23 &367733283
 Renderer:
@@ -2838,6 +2734,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 543749438}
   - 114: {fileID: 543749439}
+  - 114: {fileID: 543749440}
   m_Layer: 8
   m_Name: GUI
   m_TagString: Untagged
@@ -2852,15 +2749,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 543749437}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1691407380}
+  - {fileID: 2006476092}
+  - {fileID: 1719487599}
+  - {fileID: 609821699}
   - {fileID: 222043769}
   - {fileID: 2130835798}
   - {fileID: 267239702}
   - {fileID: 1981693192}
   - {fileID: 1436275905}
   - {fileID: 1431719850}
+  - {fileID: 1568363917}
+  - {fileID: 93996148}
+  - {fileID: 1426483890}
+  - {fileID: 1494697842}
   m_Father: {fileID: 1620400257}
 --- !u!114 &543749439
 MonoBehaviour:
@@ -2873,6 +2778,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038b0a7d10c875e429fc2144dc6150c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &543749440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 543749437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7602d150687530243bb4fbef8ec7779b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &609821698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 609821699}
+  - 132: {fileID: 609821700}
+  m_Layer: 8
+  m_Name: GUI-Text Tools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &609821699
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 609821698}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!132 &609821700
+GUIText:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 609821698}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: Tools
+  m_Anchor: 0
+  m_Alignment: 1
+  m_PixelOffset: {x: 28, y: 575}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Material: {fileID: 0}
+  m_FontSize: 0
+  m_FontStyle: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_PixelCorrect: 1
+  m_RichText: 1
 --- !u!1 &833057332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3096,6 +3062,52 @@ MonoBehaviour:
   degree_separation: 1
   showRays: 0
   showLines: 0
+--- !u!1 &1426483889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1426483890}
+  - 131: {fileID: 1426483891}
+  m_Layer: 8
+  m_Name: GUI-Disable Hacks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1426483890
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426483889}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!131 &1426483891
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426483889}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: bb818d95a392c6f49bbb0acec5232156, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 8
+    y: 240
+    width: 32
+    height: 32
+  m_LeftBorder: 80
+  m_RightBorder: 0
+  m_TopBorder: 160
+  m_BottomBorder: 0
 --- !u!1 &1431719849
 GameObject:
   m_ObjectHideFlags: 0
@@ -3163,7 +3175,7 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 300
+    y: 320
     width: 64
     height: 32
   m_LeftBorder: 0
@@ -3237,9 +3249,115 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 340
+    y: 360
     width: 64
     height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
+--- !u!1 &1494697841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1494697842}
+  - 131: {fileID: 1494697844}
+  - 114: {fileID: 1494697843}
+  m_Layer: 0
+  m_Name: GUI-TButton Slow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1494697842
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1494697841}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &1494697843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1494697841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74710b60b24a3be44b1b621ed6f32d9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &1494697844
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1494697841}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: fdbe753938297384b8e44b3777f95bfd, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 14
+    y: 200
+    width: 64
+    height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
+--- !u!1 &1568363916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1568363917}
+  - 131: {fileID: 1568363918}
+  m_Layer: 8
+  m_Name: GUI-BG Tools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1568363917
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1568363916}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!131 &1568363918
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1568363916}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 50d34afd469ddf44aae5c8d95433195e, type: 3}
+  m_Color: {r: .176470578, g: .176470578, b: .176470578, a: .501960814}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 300
+    width: 95
+    height: 300
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
@@ -3746,6 +3864,102 @@ Mesh:
     m_Extent: {x: 20, y: 12, z: 0}
   m_MeshUsageFlags: 0
   m_MeshOptimized: 0
+--- !u!1 &1691407379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1691407380}
+  - 131: {fileID: 1691407381}
+  m_Layer: 8
+  m_Name: GUI-Disable Tools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1691407380
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1691407379}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!131 &1691407381
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1691407379}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: bb818d95a392c6f49bbb0acec5232156, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 8
+    y: 520
+    width: 32
+    height: 32
+  m_LeftBorder: 80
+  m_RightBorder: 0
+  m_TopBorder: 240
+  m_BottomBorder: 0
+--- !u!1 &1719487598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1719487599}
+  - 132: {fileID: 1719487600}
+  m_Layer: 8
+  m_Name: GUI-Text Hacks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1719487599
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1719487598}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!132 &1719487600
+GUIText:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1719487598}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: Hacks
+  m_Anchor: 0
+  m_Alignment: 1
+  m_PixelOffset: {x: 26, y: 290}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Material: {fileID: 0}
+  m_FontSize: 0
+  m_FontStyle: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_PixelCorrect: 1
+  m_RichText: 1
 --- !u!1 &1981693191
 GameObject:
   m_ObjectHideFlags: 0
@@ -3813,7 +4027,67 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 420
+    y: 440
+    width: 64
+    height: 32
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
+--- !u!1 &2006476091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2006476092}
+  - 131: {fileID: 2006476094}
+  - 114: {fileID: 2006476093}
+  m_Layer: 0
+  m_Name: GUI-TButton Dark
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2006476092
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2006476091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543749438}
+--- !u!114 &2006476093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2006476091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1fad75beb754b44a693ae925c0e87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOver: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+  colorPushed: {r: .75, g: .75, b: .75, a: 1}
+--- !u!131 &2006476094
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2006476091}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 7c695fc25664af84fb20cbac065ba1f4, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 14
+    y: 240
     width: 64
     height: 32
   m_LeftBorder: 0
@@ -3887,7 +4161,7 @@ GUITexture:
   m_PixelInset:
     serializedVersion: 2
     x: 14
-    y: 380
+    y: 400
     width: 64
     height: 32
   m_LeftBorder: 0

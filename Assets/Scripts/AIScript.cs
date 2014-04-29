@@ -34,6 +34,8 @@ public class AIScript : MonoBehaviour {
 		if(Input.GetKeyDown("space")){
 			started = true;
 			timer = Time.time;
+			GameObject.Find("GUI").GetComponent<Highlighter>().off();
+			GameObject.Find("GUI").GetComponent<Multilighter>().on();
 		}
 		if(started){
 
