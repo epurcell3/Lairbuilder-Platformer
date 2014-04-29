@@ -15,6 +15,8 @@ public class Tilemap : MonoBehaviour {
     //public stuff for the Inspector
     public enum InputMethod { MANUAL, FILE };
 
+	public List<GameObject> auras = new List<GameObject> ();
+
     public InputMethod input_method = InputMethod.FILE;
 
     public int size_x = 40; //tiles wide
@@ -24,7 +26,7 @@ public class Tilemap : MonoBehaviour {
 
     public float tile_size = 1.0f;
 
-    public int solid_threshold = 1; //where tiles become solid;
+    public int solid_threshold = 5; //where tiles become solid;
 
     public Texture2D tileset; //texture of the tiles
 
@@ -119,7 +121,8 @@ public class Tilemap : MonoBehaviour {
                 tile_resolution = Convert.ToInt32(o["tileheight"]);
                 try
                 {
-                    solid_threshold = Convert.ToInt32(o["tilesets"][0]["properties"]["solid_threshold"]);
+                    //solid_threshold = Convert.ToInt32(o["tilesets"][0]["properties"]["solid_threshold"]);
+					solid_threshold = 5;
                 } catch {
                  solid_threshold = 1;    
                 }
@@ -149,11 +152,34 @@ public class Tilemap : MonoBehaviour {
         while(GetComponents<BoxCollider2D>().Length > 0)
             DestroyImmediate(GetComponent<BoxCollider2D>());
         BuildMesh();
-    }
+	}
+	
+	private int aexists (int x, int y){
+		for(int i = 0; i < auras.Count; i++)
+			if(auras[i].GetComponent<Aura>().getBase().x == x && auras[i].GetComponent<Aura>().getBase().y == y)
+				return i;
+		return -1;
+	}
 
     public void PlaceBlock(int x, int y, int id)
     {
         _map.SetTileAt(x, y, id);
+		int i = aexists (x, y);
+		Debug.Log (i);
+		if(id == 2 && (aexists(x,y) == -1)){
+			auras.Add(new GameObject("Aura" + auras.Count));
+			int aid = auras.Count - 1;
+			auras[aid].AddComponent("Aura");
+			auras[aid].transform.Translate(x,y,10);
+			auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
+			Vector3 cen = auras[aid].transform.position;
+			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,cen.z);
+		}
+		if(id != 2 && (aexists(x,y) != -1)){
+			GameObject g = auras[i];
+			auras.Remove(auras[i]);
+			DestroyImmediate(g);
+		}
     }
 
     // Breaks the vector down to indices and calls the other function
@@ -215,7 +241,7 @@ public class Tilemap : MonoBehaviour {
 			//Draw a block. This is hardcoded for now.
 			if(!collided && b_type != 0 && b_type != -1)
 				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), b_type);
-			else if(collided && b_type == 0)
+			else if(b_type == 0)
 			//Erase a block.
 				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), 1);
 		}

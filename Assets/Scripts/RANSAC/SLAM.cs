@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System;
 
-public class SLAM : MonoBehaviour{
+public class SLAM : MonoBehaviour
+{
 
+    #region Instance Variables
     public int LIFE = 40;
     public float MAX_ERROR = 0.5f;
     public int MIN_OBSERVATIONS = 15; //min times a landmark must be seen to be counted as a landmark
@@ -34,8 +36,9 @@ public class SLAM : MonoBehaviour{
     //localization and occupancy grid variables
     private Vector2 position;
     private Cell[,] occupancyGrid;
-    
+    #endregion
 
+    #region Unity Calls
     void Start()
     {
         Landmark.LIFE = LIFE;
@@ -47,7 +50,7 @@ public class SLAM : MonoBehaviour{
         {
             for (int j = 0; j < height; j++)
             {
-                occupancyGrid[i, j] = new Cell(Occupant.OPEN, 1.0f);
+                occupancyGrid[i, j] = new Cell(Occupant.UNEXPLORED, 1.0f);
             }
         }
     }
@@ -101,8 +104,10 @@ public class SLAM : MonoBehaviour{
         }
         
     }
+    #endregion
 
-	public Vector2 Position
+    #region Properties
+    public Vector2 Position
 	{
 		get { return position; }
 	}
@@ -111,7 +116,9 @@ public class SLAM : MonoBehaviour{
 	{
 		get { return occupancyGrid; }
 	}
+    #endregion
 
+    #region Landmark
     public class Landmark
     {
         public static int LIFE = 40;
@@ -191,7 +198,9 @@ public class SLAM : MonoBehaviour{
             set { bearing_error = value; }
         }
     }
+    #endregion
 
+    #region SLAM stuff
     private int GetSlamID(int id)
     {
         for (int i = 0; i < EKFLandmarks; i++)
@@ -303,14 +312,16 @@ public class SLAM : MonoBehaviour{
         }
         return -1;
     }
+    #endregion
 
-	public bool exploredEnoughToSlam(){
+    public bool exploredEnoughToSlam(){
 		return false;
 	}
 
+    #region Occupancy Grid stuff
     public enum Occupant
     {
-        OPEN = 0, OUTTER_WALL = 1, WALL = 2, DOOR = 3, DANGER = 4, AURA = 5 
+        UNEXPLORED = -1, OPEN = 0, OUTTER_WALL = 1, WALL = 2, DOOR = 3, DANGER = 4, AURA = 5 
     }
 
     public class Cell
@@ -339,13 +350,38 @@ public class SLAM : MonoBehaviour{
 
     private void updateOccupancyGrid(Landmark[] extracted_landmarks)
     {
-        for (int i = 0; i < extracted_landmarks.Length; i++)
+        for (int x = 0; x < extracted_landmarks.Length; x++)
         {
-            Landmark lm = extracted_landmarks[i];
+            Landmark lm = extracted_landmarks[x];
             int r = (int)(lm.Point.x * (1 / MAX_ERROR));
             int c = (int)(lm.Point.y * (1 / MAX_ERROR));
 
             occupancyGrid[r, c].Occupant = Occupant.WALL;
+
+            int i_start = (int)(position.x * (1 / MAX_ERROR));
+            int j_start = (int)(position.y * (1 / MAX_ERROR));
+            int i_d = i_start > r ? -1 : 1;
+            int j_d = j_start > c ? -1 : 1;
+
+            for (int i = i_start; i != r; i += i_d)
+            {
+                for (int j = j_start; j != r; j += j_d)
+                {
+                    if (occupancyGrid[i, j].Occupant == Occupant.UNEXPLORED)
+                    {
+                        occupancyGrid[i, j].Occupant = Occupant.OPEN;
+                    }
+                }
+            }
         }
     }
+
+    private void removeOccupant(Landmark lm)
+    {
+        int r = (int)(lm.Point.x * (1 / MAX_ERROR));
+        int c = (int)(lm.Point.y * (1 / MAX_ERROR));
+
+        occupancyGrid[r, c].Occupant = Occupant.OPEN;
+    }
+    #endregion
 }
