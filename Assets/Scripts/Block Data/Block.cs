@@ -4,6 +4,7 @@ using System.Collections;
 public class Block : MonoBehaviour {
 
 	public int tileId;
+	public string dataString;
 	private int uses;
 
 	// Use this for initialization

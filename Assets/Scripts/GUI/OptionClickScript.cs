@@ -34,7 +34,7 @@ public class OptionClickScript : MonoBehaviour {
 	{
 		Tilemap t = (Tilemap)GameObject.Find("Wall").GetComponent("Tilemap");
 
-		t.updateType (((Block)gameObject.GetComponent("Block")).tileId);
+		t.updateType (((Block)gameObject.GetComponent("Block")).tileId, ((Block)gameObject.GetComponent("Block")).dataString);
 		//Debug.Log(t.tileType());
 		//gameObject.guiTexture.color= colorPushed;
 		((Highlighter)(GameObject.Find ("GUI").GetComponent ("Highlighter"))).updateCurrent(this);
