@@ -13,7 +13,7 @@ public class TurretAura : Aura {
 		makeCollider ();
 		spriteMaker ();
 		actor = GameObject.Find ("AI");
-		killtime = 2f;
+		killtime = 1f;
 	}
 	
 	// Update is called once per frame
@@ -22,10 +22,14 @@ public class TurretAura : Aura {
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		float tnow = Time.time;
-		if(timeenter+killtime < tnow && other.gameObject.GetComponent<AIScript>() != null){
-			other.gameObject.GetComponent<AIScript>().die();
-			timeenter = tnow;
+		if(other.gameObject.GetComponent<AIScript>().timer != 0.0f){
+			float tnow = Time.time;
+			if(timeenter+killtime < tnow && other.gameObject.GetComponent<AIScript>() != null){
+				other.gameObject.GetComponent<AIScript>().die();
+				timeenter = tnow;
+			}
+		}else{
+			timeenter = Time.time;
 		}
 	}
 

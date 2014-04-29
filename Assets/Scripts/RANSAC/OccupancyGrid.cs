@@ -25,6 +25,12 @@ public class OccupancyGrid
         }
     }
 
+    public int GetLength(int dimension)
+    {
+        if (dimension < 0 || dimension > 1)
+            return -1;
+        return grid.GetLength(dimension);
+    }
 
     public SLAM.Cell this[int x, int y]
     {

@@ -11,9 +11,13 @@ public class AIScript : MonoBehaviour {
 	public int AITime = 0;
 	private SearchScript searcher;
 	private bool started = false;
-	private float timer;
+	public float timer;
+	public int deaths = 0;
+	private Vector3 start;
 	// Use this for initialization
 	void Start () {
+		start = gameObject.transform.position;
+
 		mover = gameObject.GetComponent<MoveScript> ();
 
 		slam = gameObject.GetComponent<SLAM>();
@@ -124,10 +128,19 @@ public class AIScript : MonoBehaviour {
 	
 	public void die(){
 		searcher = null;
+		GameObject.Find ("AI").transform.position = start;
 		Debug.Log ("Died at " + Time.time);
+		deaths++;
 	}
 
 	public void win(){
+		started = false;
+		Vector3 baseV = new Vector3 (0.0f, 0.0f, 25f);
+		GameObject.Find ("GUI-End Back").transform.position =baseV;
+		baseV.z = 30f;
+		GameObject.Find ("GUI-End Button").transform.position =baseV;
+		GameObject.Find ("GUI-End Text").transform.position =baseV;
+		GameObject.Find ("GUI-End Text").GetComponent<EndText> ().setTime ();
 		Debug.Log ("Won after " + (Time.time - timer) + " seconds.");
 	}
 

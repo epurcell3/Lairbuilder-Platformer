@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerData : MonoBehaviour {
 
 	int money;
-	private readonly int BaseMoney = 10500;
+	private readonly int BaseMoney = 10000;
 
 	// Use this for initialization
 	void Start () {
