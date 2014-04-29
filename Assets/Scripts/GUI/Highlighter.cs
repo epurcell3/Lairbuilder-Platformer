@@ -43,7 +43,7 @@ public class Highlighter : MonoBehaviour {
 	public void on(){
 		Vector3 v = GameObject.Find ("GUI-Disable Tools").transform.position;
 		v.z = 0;
-		Debug.Log (v);
+		//Debug.Log (v);
 		GameObject.Find ("GUI-Disable Tools").transform.position = v;
 		this.enableButton = true;
 	}

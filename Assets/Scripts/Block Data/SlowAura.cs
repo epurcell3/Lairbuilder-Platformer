@@ -14,11 +14,11 @@ public class SlowAura : Aura {
 	
 	void OnTriggerEnter2D(Collider2D other){
 		Vector2 sp = actor.GetComponent<MoveScript> ().speed;
-		actor.GetComponent<MoveScript>().speed = new Vector2(sp.x/2.0f, sp.y/2.0f);
+		actor.GetComponent<MoveScript>().speed = new Vector2(sp.x*.8f, sp.y*.8f);
 	}
 	
 	void OnTriggerExit2D(Collider2D other){
 		Vector2 sp = actor.GetComponent<MoveScript> ().speed;
-		actor.GetComponent<MoveScript>().speed = new Vector2(sp.x*2.0f, sp.y*2.0f);
+		actor.GetComponent<MoveScript>().speed = new Vector2(sp.x/.8f, sp.y/.8f);
 	}
 }

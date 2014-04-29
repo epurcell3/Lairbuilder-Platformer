@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NormalBlock : Block {
+public class SuperBlock : Block {
 
 	// Use this for initialization
 	void Start () {
