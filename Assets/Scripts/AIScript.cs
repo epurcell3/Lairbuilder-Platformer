@@ -65,4 +65,8 @@ public class AIScript : MonoBehaviour {
 		return false;
 
 	}
+
+	public void die(){
+
+	}
 }

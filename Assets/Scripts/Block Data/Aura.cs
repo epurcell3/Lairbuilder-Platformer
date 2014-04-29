@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Aura : MonoBehaviour {
 	public float length;
+	protected GameObject actor;
 	protected float timeenter;
 	protected float timeexit;
 	protected int mapHeight;
