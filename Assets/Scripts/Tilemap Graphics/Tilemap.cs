@@ -42,11 +42,11 @@ public class Tilemap : MonoBehaviour {
 
 	// Storing where the map is in screenspace is a big deal... Just have to figure out
 	private Vector2 location;
-	private int b_type = -1;
-	private string blstr = "blank";
+	private Block b_type = null;
 	private int acount;
 
 	private Vector2 lastP = new Vector2 (-1f, -1f);
+	private PlayerData pdata;
 
 
     //Event handler for setting a new tile
@@ -123,6 +123,7 @@ public class Tilemap : MonoBehaviour {
 				}
 			}
 		}
+		pdata = GameObject.Find ("Player").GetComponent<PlayerData> ();
 		Camera.main.enabled = true;
 	}
 
@@ -178,28 +179,47 @@ public class Tilemap : MonoBehaviour {
 		return -1;
 	}
 
-    public void PlaceBlock(int x, int y, int id)
+    public void PlaceBlock(int x, int y, Block blk)
 	{
 		if(_map.GetTileAt(x,y).ID == 11 || _map.GetTileAt(x,y).ID == 10 ||(this.lastP.x == x && this.lastP.y == y))
 			return;
-		this.lastP = new Vector2 ((float)x, (float)y);
-        _map.SetTileAt(x, y, id);
-		int i = aexists (x, y);
+		int id = blk.tileId;
 		//Debug.Log (id);
-		if(aexists(x,y) != -1){
-			GameObject g = auras[i];
-			auras.Remove(auras[i]);
-			DestroyImmediate(g);
+		if(id != 0 && blk.incUses(pdata)){
+			this.lastP = new Vector2 ((float)x, (float)y);
+	        _map.SetTileAt(x, y, id);
+			int i = aexists (x, y);
+			//Debug.Log (id);
+			if(aexists(x,y) != -1){
+				GameObject g = auras[i];
+				auras.Remove(auras[i]);
+				DestroyImmediate(g);
+			}
+			if((id <= 9) && (id > 1) && (aexists(x,y) == -1)){
+				auras.Add(new GameObject("Aura" + ++this.acount));
+				int aid = auras.Count - 1;
+				auras[aid].AddComponent(blk.dataString);
+				auras[aid].transform.Translate(x,y,10);
+				auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
+				Vector3 cen = auras[aid].transform.position;
+				auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
+			}
+		}else if(blk.tileId == 0){
+			//Debug.Log (GameObject.Find ("Blocks").GetComponent<BlkData>().blk[_map.GetTileAt(x,y).ID].tileId);
+			if(GameObject.Find ("Blocks").GetComponent<BlkData>().blk[_map.GetTileAt(x,y).ID].decUses(pdata)){
+				this.lastP = new Vector2 ((float)x, (float)y);
+				_map.SetTileAt(x, y, id);
+				//int i = aexists (x, y);
+				//Debug.Log (id);
+				int i = aexists (x, y);
+				if(aexists(x,y) != -1){
+					GameObject g = auras[i];
+					auras.Remove(auras[i]);
+					DestroyImmediate(g);
+				}
+			}
 		}
-		if((id <= 9) && (id > 1) && (aexists(x,y) == -1)){
-			auras.Add(new GameObject("Aura" + ++this.acount));
-			int aid = auras.Count - 1;
-			auras[aid].AddComponent(blstr);
-			auras[aid].transform.Translate(x,y,10);
-			auras[aid].GetComponent<Aura>().setBase(auras[aid].transform.position);
-			Vector3 cen = auras[aid].transform.position;
-			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
-		}
+
 
     }
 
@@ -259,13 +279,7 @@ public class Tilemap : MonoBehaviour {
 		}
 		
 		if (Input.GetMouseButton (0) && mouseTile.z == 0.0) {
-			//Draw a block. This is hardcoded for now.
-			/*if(!collided && b_type != 0 && b_type != -1)
-				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), b_type);
-			else if(b_type == 0)
-			//Erase a block.
-				this.PlaceBlock ((int)(mouseTile.x), (int)(mouseTile.y), b_type);*/
-			if(b_type != -1)
+			if(b_type != null)
 				this.PlaceBlock((int)(mouseTile.x), (int)(mouseTile.y), b_type);
 		}
 	}
@@ -359,20 +373,20 @@ public class Tilemap : MonoBehaviour {
         return new Vector3(v.x, v.y, valid);
     }
 
-	public void updateType(int a, string s){
-		//Debug.Log ("UPD" + a);
-		if (this.b_type == a) {
-			this.b_type = -1;
-			this.blstr = "";
-			this.lastP = new Vector2(-1f, -1f);
-		} else {
-			this.lastP = new Vector2(-1f, -1f);
-			this.b_type = a;
-			this.blstr = s;
+	public void updateType(Block b){
+		this.lastP = new Vector2(-1f, -1f);
+		if(this.b_type != null){
+			if (this.b_type.tileId == b.tileId)
+				this.b_type = null;
+			else
+				this.b_type = b;
+		}else{
+			this.b_type = b;
 		}
 	}
 
-	public int tileType(){
+
+	public Block tileType(){
 		return this.b_type;
 	}
 }

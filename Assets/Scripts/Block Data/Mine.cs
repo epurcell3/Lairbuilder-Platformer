@@ -7,10 +7,15 @@ public class Mine : AuraBlock {
 	void Start () {
 		tileId = 5;
 		dataString = "MineAura";
+		cmult = 150;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	
+	protected int costFunction(int n){
+		return 150*n * n;
 	}
 }

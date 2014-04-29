@@ -8,7 +8,7 @@ public class ToggleClickScript : MonoBehaviour {
 	private Color originalColor = Color.gray;
 	
 	protected bool isOn;
-	
+
 	// Use this for initialization
 	void Start () { 
 		isOn = false;

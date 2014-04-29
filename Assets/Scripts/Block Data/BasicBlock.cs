@@ -7,10 +7,15 @@ public class BasicBlock : Block {
 	void Start () {
 		tileId = 12;
 		dataString = "Wall";
+		cmult = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	
+	protected int costFunction(int n){
+		return 1*n * n;
 	}
 }

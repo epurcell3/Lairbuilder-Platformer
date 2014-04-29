@@ -33,9 +33,9 @@ public class OptionClickScript : MonoBehaviour {
 	void OnMouseUpAsButton()
 	{
 		Tilemap t = (Tilemap)GameObject.Find("Wall").GetComponent("Tilemap");
-
-		t.updateType (((Block)gameObject.GetComponent("Block")).tileId, ((Block)gameObject.GetComponent("Block")).dataString);
+		//t.updateType (((Block)gameObject.GetComponent ("Block")));//((Block)gameObject.GetComponent("Block")).tileId, ((Block)gameObject.GetComponent("Block")).dataString);
 		//Debug.Log(t.tileType());
+		t.updateType (gameObject.GetComponent<Block> ());
 		//gameObject.guiTexture.color= colorPushed;
 		((Highlighter)(GameObject.Find ("GUI").GetComponent ("Highlighter"))).updateCurrent(this);
 	}

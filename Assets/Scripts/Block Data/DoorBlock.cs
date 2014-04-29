@@ -1,22 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DarkBlock : AuraBlock {
+public class DoorBlock : Block {
 
 	// Use this for initialization
 	void Start () {
-		tileId = 4;
-		dataString = "DarkAura";
-		cmult = 50;
+		tileId = 10;
+		dataString = "Door";
+		cmult = 100000;
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-	}
-	
-	protected int costFunction(int n){
-		return 50*n * n;
 	}
 }

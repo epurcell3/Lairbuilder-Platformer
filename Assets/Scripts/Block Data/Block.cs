@@ -5,7 +5,8 @@ public class Block : MonoBehaviour {
 
 	public int tileId;
 	public string dataString;
-	private int uses;
+	protected int uses = 0;
+	public int cmult;
 
 	// Use this for initialization
 	void Start () {
@@ -18,23 +19,30 @@ public class Block : MonoBehaviour {
 	}
 
 	int costFunction(){
-		return costFunction(uses);
+		return costFunction(uses+1);
 	}
 
-	int costFunction(int n){
-		return n * n;
+	protected virtual int costFunction(int n){
+		return cmult * n * n;
 	}
 
-	void incUses(PlayerData p){
+	public bool incUses(PlayerData p){
 		if(p.pay(costFunction())){
 			uses++;
+			return true;
 		}
+		return false;
 	}
 
-	void decUses(PlayerData p){
-		if(p.pay(-costFunction(uses - 1))){
+	public bool decUses(PlayerData p){
+		//Debug.Log (cmult);
+		//Debug.Log (costFunction(uses));
+		if(p.pay(-costFunction(uses))){
 			uses--;
+			return true;
 		}
+		return false;
 	}
+
 
 }

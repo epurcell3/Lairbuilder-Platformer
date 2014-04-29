@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Multilighter : MonoBehaviour {
 		
 		private List<ToggleClickScript> onButtons;
-		private bool enableButton;
+		private bool enableButton = true;
 		
 		// Use this for initialization
 		void Start () {
