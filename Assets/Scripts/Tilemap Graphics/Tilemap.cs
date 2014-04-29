@@ -110,6 +110,19 @@ public class Tilemap : MonoBehaviour {
 	void Start () {
         //_map = new Tilemap_D(size_x, size_y);
 		this.Generate (); //There's not enough set variables at the start, no point in running Generate to do wasted effort.
+		for(int i = 0; i < size_x; i++){
+			for(int j = 0; j < size_y; j++){
+				if(_map.GetTileAt(i,j).ID == 10){
+					Debug.Log (i + " "+ j);	
+					GameObject door = new GameObject("Door");
+					door.AddComponent("DoorAura");
+					door.transform.Translate(i,j,10);
+					door.GetComponent<Aura>().setBase(door.transform.position);
+					Vector3 cen = door.transform.position;
+					door.transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
+				}
+			}
+		}
 		Camera.main.enabled = true;
 	}
 
@@ -166,8 +179,8 @@ public class Tilemap : MonoBehaviour {
 	}
 
     public void PlaceBlock(int x, int y, int id)
-    {
-		if(_map.GetTileAt(x,y).ID == 11 || (this.lastP.x == x && this.lastP.y == y))
+	{
+		if(_map.GetTileAt(x,y).ID == 11 || _map.GetTileAt(x,y).ID == 10 ||(this.lastP.x == x && this.lastP.y == y))
 			return;
 		this.lastP = new Vector2 ((float)x, (float)y);
         _map.SetTileAt(x, y, id);
@@ -178,7 +191,7 @@ public class Tilemap : MonoBehaviour {
 			auras.Remove(auras[i]);
 			DestroyImmediate(g);
 		}
-		if((id <= 10) && (id > 1) && (aexists(x,y) == -1)){
+		if((id <= 9) && (id > 1) && (aexists(x,y) == -1)){
 			auras.Add(new GameObject("Aura" + ++this.acount));
 			int aid = auras.Count - 1;
 			auras[aid].AddComponent(blstr);
@@ -187,6 +200,7 @@ public class Tilemap : MonoBehaviour {
 			Vector3 cen = auras[aid].transform.position;
 			auras[aid].transform.position = new Vector3(cen.x+.5f, (float)this.size_y - (float)cen.y - .5f,1.0f);
 		}
+
     }
 
     // Breaks the vector down to indices and calls the other function
