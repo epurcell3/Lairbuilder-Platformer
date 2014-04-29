@@ -11,6 +11,7 @@ public class AIScript : MonoBehaviour {
 	public int AITime = 0;
 	private SearchScript searcher;
 	private bool started = false;
+	private float timer;
 	// Use this for initialization
 	void Start () {
 		mover = gameObject.GetComponent<MoveScript> ();
@@ -30,8 +31,12 @@ public class AIScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown("space"))
-		   started = true;
+		if(Input.GetKeyDown("space")){
+			started = true;
+			timer = Time.time;
+			GameObject.Find("GUI").GetComponent<Highlighter>().off();
+			GameObject.Find("GUI").GetComponent<Multilighter>().on();
+		}
 		if(started){
 
 			if (mover == null ||AITime ==0) {
@@ -119,6 +124,11 @@ public class AIScript : MonoBehaviour {
 		searcher = null;
 		Debug.Log ("Died at " + Time.time);
 	}
+
+	public void win(){
+		Debug.Log ("Won after " + (Time.time - timer) + " seconds.");
+	}
+
 	private int evalueatePos(Vector2 pos, SLAM.Cell[,] grid){
 
 		if(grid[(int)pos.x,(int)pos.y].Occupant == SLAM.Occupant.DOOR){
