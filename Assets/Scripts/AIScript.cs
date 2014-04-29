@@ -26,7 +26,7 @@ public class AIScript : MonoBehaviour {
 			searcher = new SearchScript(body, slam, mover);
 		}
 
-		
+		new GameObject("AITEST");
 	}
 	
 	// Update is called once per frame
@@ -55,10 +55,12 @@ public class AIScript : MonoBehaviour {
 				if(searcher == null || searcher.atFinalGoal){
 					pickGoalState();
 					searcher = new SearchScript(body, slam, mover);
-				//	if(gameObject.GetComponent<SpriteRenderer>() == null)
-				//		gameObject.AddComponent<SpriteRenderer> ();
-				//	gameObject.GetComponent<SpriteRenderer> ().color =  Color.yellow;
-				//	gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create (Resources.Load ("flareaura_3") as Texture2D, new Rect ((float)(32f*1), 0.0f, 32f, 32f), new Vector2 (0.5f, 0.5f), 32f / 2.5f / 2.0f);
+					GameObject g = GameObject.Find("AITEST");
+					if(g.GetComponent<SpriteRenderer>() == null)
+						g.AddComponent<SpriteRenderer> ();
+					gameObject.GetComponent<SpriteRenderer> ().color =  Color.yellow;
+					gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create (Resources.Load ("flareaura_3") as Texture2D, new Rect ((float)(32f*1), 0.0f, 32f, 32f), new Vector2 (0.5f, 0.5f), 32f / 2.5f / 2.0f);
+					g.transform.position = new Vector3(goalState.x/2f, goalState.y/2f, 25f);
 
 					Debug.Log ("final Goal state: " + goalState.x + " , " + goalState.y + " ");
 					searcher.setGoalState(goalState);

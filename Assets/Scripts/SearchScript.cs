@@ -9,6 +9,10 @@ public class SearchScript  {
 	public ArrayList moveList;
 	public Vector2 goalState;
 	public bool atFinalGoal;
+	public int maxMoveTime = 50;
+	public int moveTime = 0;
+	public int jumpEstimation = 6;
+	public int rightLeftVal = 2;
 	// Use this for initialization
 	public SearchScript(Rigidbody2D rigidbody, SLAM slammer, MoveScript move){	
 		rigid = rigidbody;
@@ -22,6 +26,7 @@ public class SearchScript  {
 		goalState = goal;
 		atFinalGoal = false;
 		moveList = doAStar();
+		return;
 	}
 	public void move(){
 		if(moveList == null || moveList.Count == 0)
@@ -31,12 +36,14 @@ public class SearchScript  {
 		}
 		else{
 			AStarNode current = (AStarNode)moveList[0];
+			moveTime ++;
 			if(slam.Position == current.position ||
 			   (current.thisMove == Move.LEFT && slam.Position.x <= current.position.x) ||
 			   (current.thisMove == Move.RIGHT && slam.Position.x >= current.position.x) ||
 			   (current.thisMove == Move.JUMP && slam.Position.y >= current.position.y) ||
 			   (current.thisMove == Move.JUMP && slam.Position.y >= current.position.y) ||
 			   current.thisMove == Move.STOPPED){
+				moveTime = 0;
 				if(moveList.Count == 1){
 					mover.stop();
 				}
@@ -51,7 +58,13 @@ public class SearchScript  {
 			}
 
 			else{
-				makeMove(current.thisMove);
+				if(moveTime >= maxMoveTime){
+					moveList = new ArrayList();
+					doAStar();
+				}
+				else{
+					makeMove(current.thisMove);
+				}
 			}
 		}
 		
@@ -75,6 +88,7 @@ public class SearchScript  {
 	}
 	private ArrayList doAStar(){
 		SLAM.Cell[,] occupancy = slam.OccupancyGrid;
+		moveTime = 0;
 		PriorityQueue<AStarNode> aStarQueue = new PriorityQueue<AStarNode>();
 		Vector2 currentPos = slam.Position;
 		int loopCap = 0;
@@ -98,21 +112,23 @@ public class SearchScript  {
 			}
 			AStarNode current = aStarQueue.deQueue();
 
-			AStarNode rightNode = new AStarNode(new Vector2(current.position.x + 1, current.position.y), Move.RIGHT, (ArrayList)current.path.Clone());
+			AStarNode rightNode = new AStarNode(new Vector2(current.position.x + rightLeftVal, current.position.y), Move.RIGHT, (ArrayList)current.path.Clone());
 			rightNode.path.Add(current);
 			aStarQueue.enQueue (heuristic(Move.RIGHT, rightNode.path.Count, occupancy, rightNode.position), rightNode);
-			AStarNode leftNode = new AStarNode(new Vector2(current.position.x -1, current.position.y), Move.LEFT, (ArrayList)current.path.Clone());
+			AStarNode leftNode = new AStarNode(new Vector2(current.position.x -rightLeftVal, current.position.y), Move.LEFT, (ArrayList)current.path.Clone());
 			leftNode.path.Add(current);
 			aStarQueue.enQueue (heuristic(Move.LEFT, leftNode.path.Count, occupancy, leftNode.position), leftNode);
-			if(current.thisMove == Move.JUMP){
-				AStarNode doubleJumpNode = new AStarNode(new Vector2(current.position.x, current.position.y + 2), Move.DOUBLEJUMP, (ArrayList)current.path.Clone());
-				doubleJumpNode.path.Add(current);
-				aStarQueue.enQueue(heuristic(Move.DOUBLEJUMP, doubleJumpNode.path.Count, occupancy, doubleJumpNode.position), doubleJumpNode);
-			}
-			else if( current.thisMove != Move.DOUBLEJUMP){
-				AStarNode jumpNode = new AStarNode(new Vector2(current.position.x, current.position.y + 2), Move.JUMP, (ArrayList)current.path.Clone());
-				jumpNode.path.Add(current);
-				aStarQueue.enQueue(heuristic(Move.JUMP, jumpNode.path.Count, occupancy, jumpNode.position), jumpNode);
+			if(!wallAbove(current.position)){
+				if(current.thisMove == Move.JUMP){
+					AStarNode doubleJumpNode = new AStarNode(new Vector2(current.position.x, current.position.y + jumpEstimation), Move.DOUBLEJUMP, (ArrayList)current.path.Clone());
+					doubleJumpNode.path.Add(current);
+					aStarQueue.enQueue(heuristic(Move.DOUBLEJUMP, doubleJumpNode.path.Count, occupancy, doubleJumpNode.position), doubleJumpNode);
+				}
+				else if( current.thisMove != Move.DOUBLEJUMP){
+					AStarNode jumpNode = new AStarNode(new Vector2(current.position.x, current.position.y + jumpEstimation), Move.JUMP, (ArrayList)current.path.Clone());
+					jumpNode.path.Add(current);
+					aStarQueue.enQueue(heuristic(Move.JUMP, jumpNode.path.Count, occupancy, jumpNode.position), jumpNode);
+				}
 			}
 
 		}
@@ -144,10 +160,23 @@ public class SearchScript  {
 		else if(occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.UNEXPLORED){
 			value -= (50 + goalDist);
 		}
-		if(value > int.MinValue && floating(pos, occupancy)){
+		if(value > int.MinValue && lastMove != Move.JUMP && floating(pos, occupancy)){
 			value -= 1000;
 		}
 		return value;
+	}
+	private bool wallAbove(Vector2 pos){
+
+		for(int i = 1; i < jumpEstimation; i++){
+			if( (int)pos.y + i < slam.OccupancyGrid.GetLength(1)){
+				if(slam.OccupancyGrid[(int)pos.x, (int)pos.y + i].Occupant == SLAM.Occupant.WALL ||
+				   slam.OccupancyGrid[(int)pos.x, (int)pos.y + i].Occupant == SLAM.Occupant.OUTTER_WALL){
+					return true;
+				}
+			}
+		}
+		return false;
+
 	}
 	private bool floating( Vector2 pos, SLAM.Cell[,] occupancy){
 
@@ -158,17 +187,17 @@ public class SearchScript  {
 			return false;
 		}
 
-		if(occupancy[(int)pos.x + 1, (int)pos.y].Occupant != SLAM.Occupant.OPEN &&
-		   occupancy[(int)pos.x + 1, (int)pos.y].Occupant != SLAM.Occupant.UNEXPLORED && 
-		   occupancy[(int)pos.x + 1, (int)pos.y].Occupant != SLAM.Occupant.AURA &&
-		   occupancy[(int)pos.x + 1, (int)pos.y].Occupant != SLAM.Occupant.DANGER){
+		if(occupancy[(int)pos.x + rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.OPEN &&
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.UNEXPLORED && 
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.AURA &&
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.DANGER){
 			return false;
 		}
 
-		if(occupancy[(int)pos.x - 1, (int)pos.y].Occupant != SLAM.Occupant.OPEN &&
-		   occupancy[(int)pos.x - 1, (int)pos.y].Occupant != SLAM.Occupant.UNEXPLORED && 
-		   occupancy[(int)pos.x - 1, (int)pos.y].Occupant != SLAM.Occupant.AURA &&
-		   occupancy[(int)pos.x - 1, (int)pos.y].Occupant != SLAM.Occupant.DANGER){
+		if(occupancy[(int)pos.x - rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.OPEN &&
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.UNEXPLORED && 
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.AURA &&
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y].Occupant != SLAM.Occupant.DANGER){
 			return false;
 		}
 
@@ -179,17 +208,17 @@ public class SearchScript  {
 			return false;
 		}
 
-		if(occupancy[(int)pos.x + 1 , (int)pos.y + 1].Occupant != SLAM.Occupant.OPEN &&
-		   occupancy[(int)pos.x + 1, (int)pos.y + 1].Occupant != SLAM.Occupant.UNEXPLORED && 
-		   occupancy[(int)pos.x + 1, (int)pos.y + 1].Occupant != SLAM.Occupant.AURA &&
-		   occupancy[(int)pos.x + 1, (int)pos.y + 1].Occupant != SLAM.Occupant.DANGER){
+		if(occupancy[(int)pos.x + rightLeftVal , (int)pos.y + 1].Occupant != SLAM.Occupant.OPEN &&
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.UNEXPLORED && 
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.AURA &&
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.DANGER){
 			return false;
 		}
 
-		if(occupancy[(int)pos.x - 1, (int)pos.y + 1].Occupant != SLAM.Occupant.OPEN &&
-		   occupancy[(int)pos.x - 1, (int)pos.y + 1].Occupant != SLAM.Occupant.UNEXPLORED && 
-		   occupancy[(int)pos.x - 1, (int)pos.y + 1].Occupant != SLAM.Occupant.AURA &&
-		   occupancy[(int)pos.x - 1, (int)pos.y + 1].Occupant != SLAM.Occupant.DANGER){
+		if(occupancy[(int)pos.x - rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.OPEN &&
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.UNEXPLORED && 
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.AURA &&
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y + 1].Occupant != SLAM.Occupant.DANGER){
 			return false;
 		}
 
@@ -200,17 +229,17 @@ public class SearchScript  {
 			return false;
 		}
 
-		if(occupancy[(int)pos.x + 1, (int)pos.y - 1].Occupant != SLAM.Occupant.OPEN &&
-		   occupancy[(int)pos.x + 1, (int)pos.y - 1].Occupant != SLAM.Occupant.UNEXPLORED && 
-		   occupancy[(int)pos.x + 1, (int)pos.y - 1].Occupant != SLAM.Occupant.AURA &&
-		   occupancy[(int)pos.x + 1, (int)pos.y - 1].Occupant != SLAM.Occupant.DANGER){
+		if(occupancy[(int)pos.x + rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.OPEN &&
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.UNEXPLORED && 
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.AURA &&
+		   occupancy[(int)pos.x + rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.DANGER){
 			return false;
 		}
 
-		if(occupancy[(int)pos.x - 1, (int)pos.y - 1].Occupant != SLAM.Occupant.OPEN &&
-		   occupancy[(int)pos.x - 1, (int)pos.y - 1].Occupant != SLAM.Occupant.UNEXPLORED && 
-		   occupancy[(int)pos.x - 1, (int)pos.y - 1].Occupant != SLAM.Occupant.AURA &&
-		   occupancy[(int)pos.x - 1, (int)pos.y - 1].Occupant != SLAM.Occupant.DANGER){
+		if(occupancy[(int)pos.x - rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.OPEN &&
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.UNEXPLORED && 
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.AURA &&
+		   occupancy[(int)pos.x - rightLeftVal, (int)pos.y - 1].Occupant != SLAM.Occupant.DANGER){
 			return false;
 		}
 		return true;
