@@ -94,7 +94,7 @@ public class AIScript : MonoBehaviour {
 
 	}
 	void pickGoalState(){
-		SLAM.Cell[,] grid = slam.OccupantGrid;
+		OccupancyGrid grid = slam.OccupantGrid;
 		int maxValue = int.MinValue;
 		Vector2 maxGridPos = new Vector2(0,0);
 		if(grid != null){
@@ -144,7 +144,7 @@ public class AIScript : MonoBehaviour {
 		Debug.Log ("Won after " + (Time.time - timer) + " seconds.");
 	}
 
-	private int evalueatePos(Vector2 pos, SLAM.Cell[,] grid){
+	private int evalueatePos(Vector2 pos, OccupancyGrid grid){
 
 		if(grid[(int)pos.x,(int)pos.y].Occupant == SLAM.Occupant.DOOR){
 			return int.MaxValue;

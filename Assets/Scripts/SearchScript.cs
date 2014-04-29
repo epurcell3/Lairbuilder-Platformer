@@ -89,7 +89,7 @@ public class SearchScript  {
 	private ArrayList doAStar(){
 		moveTime = 0;
 
-		SLAM.Cell[,] occupancy = slam.OccupantGrid;
+		OccupancyGrid occupancy = slam.OccupantGrid;
 
 		PriorityQueue<AStarNode> aStarQueue = new PriorityQueue<AStarNode>();
 		Vector2 currentPos = slam.Position;
@@ -136,7 +136,7 @@ public class SearchScript  {
 		}
 		return null;
 	}
-	private int heuristic(Move lastMove, int pathsize, SLAM.Cell[,] occupancy, Vector2 pos){
+	private int heuristic(Move lastMove, int pathsize, OccupancyGrid occupancy, Vector2 pos){
 		int value = 100 - pathsize;
 		int goalDist = manhattanDist(pos, goalState);
 
@@ -170,9 +170,9 @@ public class SearchScript  {
 	private bool wallAbove(Vector2 pos){
 
 		for(int i = 1; i < jumpEstimation; i++){
-			if( (int)pos.y + i < slam.OccupancyGrid.GetLength(1)){
-				if(slam.OccupancyGrid[(int)pos.x, (int)pos.y + i].Occupant == SLAM.Occupant.WALL ||
-				   slam.OccupancyGrid[(int)pos.x, (int)pos.y + i].Occupant == SLAM.Occupant.OUTTER_WALL){
+			if( (int)pos.y + i < slam.OccupantGrid.GetLength(1)){
+				if(slam.OccupantGrid[(int)pos.x, (int)pos.y + i].Occupant == SLAM.Occupant.WALL ||
+				   slam.OccupantGrid[(int)pos.x, (int)pos.y + i].Occupant == SLAM.Occupant.OUTTER_WALL){
 					return true;
 				}
 			}
@@ -180,7 +180,7 @@ public class SearchScript  {
 		return false;
 
 	}
-	private bool floating( Vector2 pos, SLAM.Cell[,] occupancy){
+	private bool floating( Vector2 pos, OccupancyGrid occupancy){
 
 		if((int)pos.x < 1 ||
 		        (int)pos.x >= occupancy.GetLength(0) - 1 ||
