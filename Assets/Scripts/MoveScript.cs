@@ -40,7 +40,7 @@ public class MoveScript : MonoBehaviour {
 	}
 	bool grounded(){
 
-		if(rigidbody2D.velocity.y == 0){
+		if(rigidbody2D.velocity.y == 0 && Physics2D.Raycast(transform.position, new Vector2(0, -1), 1.1f).collider != null){
 			return true;
 		}
 
