@@ -49,7 +49,7 @@ public class RANSAC {
             {
                 if(samples.Contains(point))
                     continue;
-                if (distance(m, b, point.Point) <= X && Mathf.Abs(point.Angle - samples[0].Angle) <= 15)
+                if (distance(m, b, point.Point) <= X && Mathf.Abs(point.Angle - samples[0].Angle) <= D * 1.5)
                     samples.Add(point);
             }
             if (samples.Count > C)

@@ -14,7 +14,7 @@ public class SLAM : MonoBehaviour
 
     //RANSAC variables
     public int MAX_TRIALS = 100;
-    public int SAMPLES = 10;
+    public int SAMPLES = 5;
     public int CONSENSUS = 30;
     public float TOLERANCE = 0.05f;
     public float DEGREES = 10f;
