@@ -73,6 +73,10 @@ public class SLAM : MonoBehaviour
                         Debug.DrawLine(transform.position, hit.point, Color.cyan);
                     }
                 }
+                else if (hit.collider.name == "Door")
+                {
+                    occupancyGrid[(int)hit.point.x, (int)hit.point.y].Occupant = Occupant.DOOR;
+                }
             }
             else
             {
