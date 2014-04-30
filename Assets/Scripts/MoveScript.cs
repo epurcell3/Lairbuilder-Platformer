@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class MoveScript : MonoBehaviour {
-    public Vector2 speed = new Vector2(2,6);
+    public Vector2 speed = new Vector2(2,10);
 	public int jumpCount = 0;
 	public int totalJumpTime = 20;
 	public int jumpTime = 0;

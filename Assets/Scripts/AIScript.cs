@@ -25,7 +25,7 @@ public class AIScript : MonoBehaviour {
 		goalBased = false;
 
 		if (mover != null) {
-			mover.setSpeed (new Vector2 (6, 14));
+			mover.setSpeed (new Vector2 (9, 15));
 			explorer = new SimpleExploreScript (mover, body); 
 			searcher = new SearchScript(body, slam, mover);
 		}
@@ -45,7 +45,7 @@ public class AIScript : MonoBehaviour {
 
 			if (mover == null ||AITime ==0) {
 				mover = gameObject.GetComponent<MoveScript> ();
-				mover.setSpeed (new Vector2 (6, 14));
+				mover.setSpeed (new Vector2 (9, 15));
 				explorer = new SimpleExploreScript (mover, body); 	
 			}
 			if (! goalBased) {
