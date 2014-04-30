@@ -57,7 +57,8 @@ public class SLAM : MonoBehaviour
 
     void Update()
     {
-        position = this.gameObject.transform.position;
+        //position = this.gameObject.transform.position;
+        position += Time.deltaTime * rigidbody2D.velocity;
         //Raycasting
         List<RANSAC.Sample> points = new List<RANSAC.Sample>();
         for (float i = -fov / 2; i < fov / 2; i += degree_separation)
@@ -94,6 +95,38 @@ public class SLAM : MonoBehaviour
         }
 
         extracted_landmarks = UpdateAndAddLineLandmarks(extracted_landmarks);
+
+        List<Landmark> found_landmarks = new List<Landmark>();
+        List<Landmark> new_landmarks = new List<Landmark>();
+        foreach (Landmark lm in extracted_landmarks)
+        {
+            if (lm.TimesObserved > 1)
+                found_landmarks.Add(lm);
+            else
+                new_landmarks.Add(lm);
+        }
+
+        if (found_landmarks.Count > 0)
+        {
+            Matrix A = new Matrix(found_landmarks.Count, 2);
+            Matrix b = new Matrix(found_landmarks.Count, 1);
+            for (int i = 0; i < found_landmarks.Count; i++)
+            {
+                A[i, 0] = found_landmarks[i].Point.x;
+                A[i, 1] = found_landmarks[i].Point.y;
+                b[i, 0] = found_landmarks[i].Range;
+            }
+
+            Matrix x = (Matrix.Transpose(A) * A).Invert() * Matrix.Transpose(A) * b;
+            position.x = (float)x[0, 0];
+            position.y = (float)x[1, 0];
+        }
+        foreach (Landmark lm in new_landmarks)
+        {
+            lm.Point = new Vector2(lm.Range * Mathf.Cos(lm.Bearing), lm.Range * Mathf.Sin(lm.Bearing)) + position;
+        }
+
+
 		updateOccupancyGrid(extracted_landmarks);
         if (showLines)
         {

@@ -3230,9 +3230,9 @@ MonoBehaviour:
   distance: 8
   fov: 180
   angle: 0
-  degree_separation: 1
-  showRays: 0
-  showLines: 0
+  degree_separation: .5
+  showRays: 1
+  showLines: 1
 --- !u!1 &972628817
 GameObject:
   m_ObjectHideFlags: 0
