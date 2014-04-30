@@ -10,9 +10,26 @@ public class MoveScript : MonoBehaviour {
 	public int horizontal = 0;
 	public int vertical = 0;
 	private Rect box;
-	
+	private int sameMovesNoMovement = 0;
+	private int mdir;
+	private Vector3 npos;
+
+	void Start(){
+		npos = gameObject.transform.position;
+	}
+
 	// Update is called once per frame
 	void Update () {
+		if(this.gameObject.transform.position.Equals(npos)){
+			sameMovesNoMovement++;
+		}else{
+			sameMovesNoMovement = 0;
+		}
+
+		if(sameMovesNoMovement >= 200){
+			gameObject.transform.Translate(new Vector3(-.2f * (float)mdir, 0.0f, 0.0f));
+		}
+
 
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
@@ -35,6 +52,7 @@ public class MoveScript : MonoBehaviour {
 				vertical = 0;
 			}
 		}
+
 		movement = new Vector2(speed.x * horizontal, speed.y * vertical);
         //movement = new Vector2(speed.x * inputX, speed.y * inputY);
 	}
@@ -58,10 +76,12 @@ public class MoveScript : MonoBehaviour {
 	public void right(){
 		Debug.Log("Right");
 		horizontal = 1;
+		mdir = 1;
 	}
 	public void left(){
 		Debug.Log("Left");
 		horizontal = -1;
+		mdir = -1;
 	}
 	public void stop(){
 		Debug.Log("Stop");
