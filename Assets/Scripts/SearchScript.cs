@@ -13,6 +13,7 @@ public class SearchScript  {
 	public int moveTime = 0;
 	public int jumpEstimation = 6;
 	public int rightLeftVal = 2;
+	public bool unExploredGoal = true;
 	// Use this for initialization
 	public SearchScript(Rigidbody2D rigidbody, SLAM slammer, MoveScript move){	
 		rigid = rigidbody;
@@ -29,8 +30,13 @@ public class SearchScript  {
 		return;
 	}
 	public void move(){
+
 		if(moveList == null || moveList.Count == 0)
 		{
+			mover.stop();
+			atFinalGoal = true;
+		}
+		else if(unExploredGoal && slam.OccupantGrid[(int)goalState.x, (int)goalState.y].Occupant != SLAM.Occupant.UNEXPLORED){
 			mover.stop();
 			atFinalGoal = true;
 		}
