@@ -60,6 +60,7 @@ public class SLAM : MonoBehaviour
         position = this.gameObject.transform.position;
         //Raycasting
         List<RANSAC.Sample> points = new List<RANSAC.Sample>();
+        List<RANSAC.Sample> open = new List<RANSAC.Sample>();
         for (float i = -fov / 2; i < fov / 2; i += degree_separation)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Convert.ToSingle(Math.Cos((angle + i) * Math.PI / 180)), Convert.ToSingle(Math.Sin((angle + i) * Math.PI / 180))), distance, 1);
@@ -80,9 +81,29 @@ public class SLAM : MonoBehaviour
             }
             else
             {
+                Vector2 end = new Vector2(transform.position.x + Convert.ToSingle(Math.Cos((angle + i) * Math.PI / 180)) * distance, transform.position.y + Convert.ToSingle(Math.Sin((angle + i) * Math.PI / 180)) * distance);
+                //Landmark lm = extracted_landmarks[x];
+                int r = (int)(end.x * (1 / MAX_ERROR));
+                int c = (int)(end.y * (1 / MAX_ERROR));
+
+                int i_start = (int)(position.x * (1 / MAX_ERROR));
+                int j_start = (int)(position.y * (1 / MAX_ERROR));
+                int i_d = i_start > r ? -1 : 1;
+                int j_d = j_start > c ? -1 : 1;
+
+                for (int i2 = i_start; i2 != r; i2 += i_d)
+                {
+                    for (int j = j_start; j != c; j += j_d)
+                    {
+                        if (occupancyGrid[i2, j].Occupant == Occupant.UNEXPLORED)
+                        {
+                            occupancyGrid[i2, j].Occupant = Occupant.OPEN;
+                        }
+                    }
+                }
                 if (showRays)
                 {
-                    Vector2 end = new Vector2(transform.position.x + Convert.ToSingle(Math.Cos((angle + i) * Math.PI / 180)) * distance, transform.position.y + Convert.ToSingle(Math.Sin((angle + i) * Math.PI / 180)) * distance);
+                    //end = new Vector2(transform.position.x + Convert.ToSingle(Math.Cos((angle + i) * Math.PI / 180)) * distance, transform.position.y + Convert.ToSingle(Math.Sin((angle + i) * Math.PI / 180)) * distance);
                     Debug.DrawLine(transform.position, end, Color.green);
                 }
             }
