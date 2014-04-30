@@ -3348,6 +3348,7 @@ MonoBehaviour:
   jumpTime: 0
   horizontal: 0
   vertical: 0
+  sameMovesNoMovement: 0
 --- !u!50 &915371226
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -3463,13 +3464,13 @@ MonoBehaviour:
   MAX_LANDMARKS: 3000
   MAX_TRIALS: 100
   SAMPLES: 10
-  CONSENSUS: 30
+  CONSENSUS: 20
   TOLERANCE: .0500000007
   DEGREES: 10
   distance: 8
   fov: 270
   angle: 90
-  degree_separation: 1
+  degree_separation: .5
   showRays: 1
   showLines: 1
 --- !u!1 &972628817

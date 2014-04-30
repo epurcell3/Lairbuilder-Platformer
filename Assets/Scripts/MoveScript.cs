@@ -10,7 +10,8 @@ public class MoveScript : MonoBehaviour {
 	public int horizontal = 0;
 	public int vertical = 0;
 	private Rect box;
-	private int sameMovesNoMovement = 0;
+	public int sameMovesNoMovement = 0;
+	private int jumplr = 0;
 	private int mdir;
 	private Vector3 npos;
 
@@ -20,14 +21,18 @@ public class MoveScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(this.gameObject.transform.position.Equals(npos)){
+		if(this.gameObject.transform.position.x == npos.x && this.gameObject.transform.position.y == npos.y){
 			sameMovesNoMovement++;
 		}else{
 			sameMovesNoMovement = 0;
+			npos = gameObject.transform.position;
 		}
 
-		if(sameMovesNoMovement >= 200){
-			gameObject.transform.Translate(new Vector3(-.2f * (float)mdir, 0.0f, 0.0f));
+		if(sameMovesNoMovement >= 100){
+			Debug.Log ("Shunted");
+			gameObject.transform.Translate(new Vector3(-.5f * (float)mdir, Random.Range(-0.3f, 0.3f), 0.0f));
+			if(grounded())
+				jump();
 		}
 
 
@@ -77,11 +82,15 @@ public class MoveScript : MonoBehaviour {
 		Debug.Log("Right");
 		horizontal = 1;
 		mdir = 1;
+
+		jumplr = 0;
 	}
 	public void left(){
 		Debug.Log("Left");
 		horizontal = -1;
 		mdir = -1;
+
+		jumplr = 0;
 	}
 	public void stop(){
 		Debug.Log("Stop");
@@ -94,6 +103,10 @@ public class MoveScript : MonoBehaviour {
 		if (jumpCount == 0){
 			jumpCount = 1;
 		}
+		if(horizontal ==0)
+			jumplr ++;
+		if(jumplr > 25)
+			horizontal = Random.Range(0.0f, 1f) >= .5f ? 1:-1;
 	}
 	public void doubleJump(){
 		Debug.Log("DoubleJump");

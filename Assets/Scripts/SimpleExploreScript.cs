@@ -21,7 +21,7 @@ public class SimpleExploreScript {
 		} 
 		else {
 			if( right){
-				if(movingBody.velocity.x <= 0){
+				if(movingBody.velocity.x <= 0&& jumptimer == 0){
 					right = false;
 					mover.left();
 				}
@@ -30,7 +30,7 @@ public class SimpleExploreScript {
 				}
 			}
 			else{
-				if(movingBody.velocity.x >= 0){
+				if(movingBody.velocity.x >= 0 && jumptimer == 0){
 					right = true;
 					mover.right();
 				}

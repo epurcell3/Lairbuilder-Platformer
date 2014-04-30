@@ -14,6 +14,7 @@ public class AIScript : MonoBehaviour {
 	public float timer;
 	public int deaths = 0;
 	private Vector3 start;
+	private Vector2 prevgoal2, prevgoal1;
 	// Use this for initialization
 	void Start () {
 		start = gameObject.transform.position;
@@ -57,21 +58,27 @@ public class AIScript : MonoBehaviour {
 			}
 			if (goalBased) {
 				if(searcher == null || searcher.atFinalGoal){
+					prevgoal2 = prevgoal1;
+					prevgoal1 = goalState;
 					pickGoalState();
-
+					if(goalState.Equals(prevgoal1) && slam.OccupantGrid[(int)goalState.x, (int)goalState.y].Occupant != SLAM.Occupant.DOOR){
+						goalState.x = slam.Position.x - (goalState.x - slam.Position.x);
+						goalState.y = slam.Position.y - (goalState.y - slam.Position.y);
+					}else if(goalState.Equals(prevgoal2) && slam.OccupantGrid[(int)goalState.x, (int)goalState.y].Occupant != SLAM.Occupant.DOOR){
+						AITime = 200;
+						goalBased = false;
+						return;
+					}
 					searcher = new SearchScript(body, slam, mover);
 					GameObject g = GameObject.Find("AITEST");
+					Vector3 ntrans = new Vector3((float)goalState.x, (float)goalState.y, 25f);
+					Vector3 pos = g.transform.position;
+					g.transform.Translate(ntrans.x-pos.x,ntrans.y-pos.y,0f,Space.World);
 					if(g.GetComponent<SpriteRenderer>() == null)
 						g.AddComponent<SpriteRenderer> ();
 					gameObject.GetComponent<SpriteRenderer> ().color =  Color.yellow;
-					gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create (Resources.Load ("flareaura_3") as Texture2D, new Rect ((float)(32f*1), 0.0f, 32f, 32f), new Vector2 (0.5f, 0.5f), 32f / 2.5f / 2.0f);
-					g.transform.position = new Vector3(goalState.x/2f, goalState.y/2f, 25f);
-					if(slam.OccupantGrid[(int)goalState.x, (int) goalState.y].Occupant == SLAM.Occupant.UNEXPLORED){
-						searcher.unExploredGoal = true;
-					}
-					else{
-						searcher.unExploredGoal = false;
-					}
+					gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create (Resources.Load ("flareaura_3") as Texture2D, new Rect ((float)(32f*1), 0.0f, 32f, 32f), new Vector2 (0.5f, 0.5f), 32f);
+
 					Debug.Log ("final Goal state: " + goalState.x + " , " + goalState.y + " ");
 					searcher.setGoalState(goalState);
 				}
@@ -115,15 +122,12 @@ public class AIScript : MonoBehaviour {
 						goalState = new Vector2(i,j);
 						return;
 					}
-					else if(grid[i,j].Occupant == SLAM.Occupant.UNEXPLORED){
-						tempValue = 1000 - manhattanDist(new Vector2(i, j), slam.Position);
+					else if(grid[i,j].Occupant == SLAM.Occupant.OPEN){
+						tempValue = evalueatePos(new Vector2(i,j), grid);
 					}
-					//else if(grid[i,j].Occupant == SLAM.Occupant.OPEN){
-				//		tempValue = evalueatePos(new Vector2(i,j), grid);
-				//	}
-				//	else if(grid[i,j].Occupant == SLAM.Occupant.DANGER || grid[i,j].Occupant == SLAM.Occupant.AURA){
-				//		tempValue = evalueatePos(new Vector2(i,j), grid) / 25;
-				//	}
+					else if(grid[i,j].Occupant == SLAM.Occupant.DANGER || grid[i,j].Occupant == SLAM.Occupant.AURA){
+						tempValue = evalueatePos(new Vector2(i,j), grid) / 25;
+					}
 					if(tempValue > maxValue){
 						maxValue = tempValue;
 						maxGridPos = new Vector2(i,j);
@@ -134,6 +138,7 @@ public class AIScript : MonoBehaviour {
 			goalState = maxGridPos;
 		}
 	}
+	
 	public void die(){
 		searcher = null;
 		GameObject.Find ("AI").transform.position = start;
