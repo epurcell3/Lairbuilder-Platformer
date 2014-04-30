@@ -60,7 +60,7 @@ public class SearchScript  {
 			else{
 				if(moveTime >= maxMoveTime){
 					moveList = new ArrayList();
-					doAStar();
+					moveList = doAStar();
 				}
 				else{
 					makeMove(current.thisMove);
@@ -94,6 +94,7 @@ public class SearchScript  {
 		PriorityQueue<AStarNode> aStarQueue = new PriorityQueue<AStarNode>();
 		Vector2 currentPos = slam.Position;
 		int loopCap = 0;
+
 		aStarQueue.enQueue(heuristic(Move.STOPPED, 0, occupancy, slam.Position), new AStarNode( slam.Position, Move.STOPPED, new ArrayList()));
 		while(aStarQueue.notEmpty()){
 			loopCap++;
@@ -136,8 +137,10 @@ public class SearchScript  {
 		}
 		return null;
 	}
-	private int heuristic(Move lastMove, int pathsize, OccupancyGrid occupancy, Vector2 pos){
+	private int heuristic(Move lastMove, int pathsize, OccupancyGrid occupancy, Vector2 opos){
+
 		int value = 100 - pathsize;
+		Vector2 pos = new Vector2 (opos.x - 0.5f, opos.y + 1f);
 		int goalDist = manhattanDist(pos, goalState);
 
 		if((int)pos.x < 0 ||
@@ -146,13 +149,13 @@ public class SearchScript  {
 		        (int)pos.y >= occupancy.GetLength(1)){
 			value = int.MinValue;
 		}
-		else if (goalDist == 0 || occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.DOOR){
+		else if (inRangeOfGoal(pos)|| occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.DOOR){
 			value = int.MaxValue;
 		}
 
-		else if(occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.WALL || occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.OUTTER_WALL){
-			value = int.MinValue;
-		}
+	//	else if(occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.WALL || occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.OUTTER_WALL){
+	//		value = int.MinValue;
+	//	}
 		else if(occupancy[(int)pos.x, (int)pos.y].Occupant == SLAM.Occupant.OPEN){
 			value -= goalDist;
 		}
@@ -166,6 +169,12 @@ public class SearchScript  {
 			value -= 1000;
 		}
 		return value;
+	}
+	private bool inRangeOfGoal(Vector2 pos){
+		if ((Mathf.Abs (pos.x - goalState.x) + Mathf.Abs (pos.y - goalState.y)) <= 3f) {
+			return true;
+		}
+		return false;
 	}
 	private bool wallAbove(Vector2 pos){
 
